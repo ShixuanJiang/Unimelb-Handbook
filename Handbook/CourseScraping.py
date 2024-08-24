@@ -13,6 +13,7 @@ def extract_course_info(course):
     duration = meta_primary.find_all('p')[1].text.strip()
 
     credit_points_tag = course.find('div', class_='search-result-item__meta-secondary')
+    course_url = 'https://handbook.unimelb.edu.au' + course.find('a', class_='search-result-item__anchor')['href']
     if credit_points_tag and credit_points_tag.find('p'):
         credit_points_text = credit_points_tag.find('p').text.strip()
         match = re.search(r'\d+', credit_points_text)
@@ -25,7 +26,8 @@ def extract_course_info(course):
         "Course Code": course_code,
         "Location": location,
         "Duration": duration,
-        "Credit Points": credit_points
+        "Credit Points": credit_points,
+        "Course Url": course_url
     }
 
 
@@ -73,7 +75,6 @@ def main():
             #print(course)
             #print("-" * 40)
 
-        # 请求当前页面的HTML以查找下一页链接
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0"
         }
@@ -90,7 +91,7 @@ def main():
         else:
             print(f"无法获取页面内容。状态码: {response.status_code}")
             break
-    # 保存所有课程信息到CSV文件
+
     save_to_csv(all_courses, 'courses_info.csv')
 
 if __name__ == "__main__":

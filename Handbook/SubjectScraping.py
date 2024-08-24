@@ -12,6 +12,7 @@ def extract_subject_info(subject):
     primary_info = meta_primary.find('p').text.strip() if meta_primary else "Not available"
 
     meta_secondary = subject.find('div', class_='search-result-item__meta-secondary')
+    subject_url = 'https://handbook.unimelb.edu.au' + subject.find('a', class_='search-result-item__anchor')['href']
     if meta_secondary and meta_secondary.find('p'):
         credit_points_text = meta_secondary.find('p').text.strip()
         match = re.search(r'\d+', credit_points_text)
@@ -23,7 +24,8 @@ def extract_subject_info(subject):
         "Subject Name": subject_name,
         "Subject Code": subject_code,
         "Primary Info": primary_info,
-        "Credit Points": credit_points
+        "Credit Points": credit_points,
+        "Subject Url": subject_url
     }
 
 
