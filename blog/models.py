@@ -25,6 +25,10 @@ class Course(models.Model):
     #url
     url = models.TextField()
 
+    def level(self):
+        numeric_part = self.code[4:]
+        return int(numeric_part[0])
+
 class CoursePlan(models.Model):
     student_id = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     course = models.ManyToManyField(Course)
