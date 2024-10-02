@@ -2,6 +2,8 @@ import React from 'react'
 import './index.css'
 import logo from './assets/images/unimelb-logo.png';
 
+
+
 const App = () => {
     return (
         <>
@@ -39,12 +41,12 @@ const App = () => {
                     <p className="text-xl text-black mb-6">Plan. Manage. Enrol.</p>
 
                     {/* Blue Box */}
-                    <div className="bg-blue-900 text-white py-8 px-6 rounded-lg w-full max-w-3xl font-sans">
-                        <ul className="text-left space-y-2">
-                            <li><strong>Plan</strong> your course</li>
-                            <li><strong>Manage</strong> your subjects</li>
-                            <li><strong>Enrol</strong> in subjects</li>
-                        </ul>
+                    <div className="bg-blue-700 text-white py-8 px-16 rounded-lg w-full max-w-3xl">
+                    <ul className="text-left space-y-2">
+                        <li><strong>Plan</strong> your course</li>
+                        <li><strong>Manage</strong> your subjects</li>
+                        <li><strong>Enrol</strong> in subjects</li>
+                    </ul>
                         <p className="mt-4 text-sm">
                             * If you are unsure about your plan, consult the <a href="https://handbook.unimelb.edu.au/search" target = "_blank" className="underline">University Handbook</a>.<br />
                             If you remain unsure, contact a <a href="https://students.unimelb.edu.au/student-support/advice-and-help/stop-1/categories/course-planning" target = "_blank" className="underline">course adviser</a>.
