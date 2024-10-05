@@ -2,6 +2,7 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import React from 'react'
 import './index.css'
 import WelcomePage from './pages/WelcomePage';
+import MainPage from './pages/MainPage';
 
 const router = createBrowserRouter(
     createRoutesFromElements(<Route index element={<WelcomePage />} />)

@@ -10,7 +10,7 @@ const WelcomePage = () => {
             <div className="text-white font-bold text-lg">
                 <img
                     className="inline-block h-10 mr-2"
-                    src={logo}
+                    src="https://dds-gen4.web.unimelb.edu.au/2.0.2/integration/components/logo/logo-stacked.cd3b6d07d2afb1171ace767d7927d79d.svg"
                     alt="University Logo"
                     
                 />
@@ -33,7 +33,7 @@ const WelcomePage = () => {
 
     {/* Main Section */}
     <main className="flex-grow flex flex-col items-center text-center p-20">
-        <h1 className="text-4xl font-bold text-black mb-4">Course Planner</h1>
+        <h1 className="text-6xl font-bold text-black mb-4">Course Planner</h1>
         <p className="text-xl text-black mb-6">Plan. Manage. Enrol.</p>
 
         {/* Blue Box */}
