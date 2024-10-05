@@ -5,12 +5,12 @@ const WelcomePage = () => {
   return (
     <>                
     {/* Navbar */}
-    <header className="w-full bg-blue-950 p-9">
+    <header className="w-full bg-blue-950 p-1">
         <div className="flex justify-between items-center">
             <div className="text-white font-bold text-lg">
                 <img
-                    className="inline-block size-12 mr-2"
-
+                    className="inline-block mr-2"
+                    style={{ width: '108px', height: '108px' }}
                     src="https://dds-gen4.web.unimelb.edu.au/2.0.2/integration/components/logo/logo-stacked.cd3b6d07d2afb1171ace767d7927d79d.svg"
                     alt="University Logo"
                 />
