@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/images/unimelb-logo.png';
+import { Link } from 'react-router-dom';
 
 const WelcomePage = () => {
   return (
@@ -9,11 +9,12 @@ const WelcomePage = () => {
         <div className="flex justify-between items-center">
             <div className="text-white font-bold text-lg">
                 <img
-                    className="inline-block h-10 mr-2"
+                    className="inline-block size-12 mr-2"
+
                     src="https://dds-gen4.web.unimelb.edu.au/2.0.2/integration/components/logo/logo-stacked.cd3b6d07d2afb1171ace767d7927d79d.svg"
                     alt="University Logo"
-                    
                 />
+
                 <span>Student Course Planner</span>
             </div>
             {/* Navbar Links */}
@@ -34,6 +35,10 @@ const WelcomePage = () => {
     {/* Main Section */}
     <main className="flex-grow flex flex-col items-center text-center p-20">
         <h1 className="text-6xl font-bold text-black mb-4">Course Planner</h1>
+        <div class="bg-light">
+            <header><h1>In congue definiebas</h1></header>
+        </div>
+
         <p className="text-xl text-black mb-6">Plan. Manage. Enrol.</p>
 
         {/* Blue Box */}
@@ -50,9 +55,12 @@ const WelcomePage = () => {
         </div>
 
         {/* Student Log In Button */}
-        <button className="bg-blue-950 text-white px-20 py-2 mt-8">
-            Student Log In
-        </button>
+        <Link to="/mainpage">
+            <button className="bg-blue-950 text-white px-20 py-2 mt-8">
+                Student Log In
+            </button>
+        </Link>
+        
         <a href="https://course-planner.unimelb.edu.au/" className="mt-2 text-black underline">Not a Current Student?</a>
     </main> 
     </>
