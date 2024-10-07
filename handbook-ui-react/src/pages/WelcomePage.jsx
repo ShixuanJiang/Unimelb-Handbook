@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 const WelcomePage = () => {
   return (
-    <>                
+    <>
+
     {/* Navbar */}
-    <header className="w-full bg-blue-950 p-1">
+    {/* <header className="w-full bg-blue-950 p-1">
         <div className="flex justify-between items-center">
             <div className="text-white font-bold text-lg">
                 <img
@@ -16,9 +17,9 @@ const WelcomePage = () => {
                 />
 
                 <span>Student Course Planner</span>
-            </div>
+            </div> */}
             {/* Navbar Links */}
-            <nav className="text-white">
+            {/* <nav className="text-white">
                 <ul className="flex space-x-6">
                     <li><a href="#new-students">New Students</a></li>
                     <li><a href="#your-course">Your Course</a></li>
@@ -30,14 +31,12 @@ const WelcomePage = () => {
                 </ul>
             </nav>
         </div>
-    </header>
+    </header> */}
 
     {/* Main Section */}
-    <main className="flex-grow flex flex-col items-center text-center p-20">
+
+    <main className="flex-grow flex flex-col items-center text-center p-20 mb-20">
         <h1 className="text-6xl font-bold text-black mb-4">Course Planner</h1>
-        <div class="bg-light">
-            <header><h1>In congue definiebas</h1></header>
-        </div>
 
         <p className="text-xl text-black mb-6">Plan. Manage. Enrol.</p>
 
