@@ -21,6 +21,10 @@ export default {
         uomLightGrey25: '#F1F1F1',
         uomLink: '#083973',
       },
+      gridTemplateColumns: {
+        '70/30': '70% 28%', 
+      }, 
+      
     },
   },
   plugins: [],

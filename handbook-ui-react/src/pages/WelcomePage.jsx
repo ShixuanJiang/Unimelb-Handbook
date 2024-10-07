@@ -48,8 +48,8 @@ const WelcomePage = () => {
             <li><strong>Enrol</strong> in subjects</li>
         </ul>
             <p className="mt-4 text-sm">
-                * If you are unsure about your plan, consult the <a href="https://handbook.unimelb.edu.au/search" target = "_blank" className="underline">University Handbook</a>.<br />
-                If you remain unsure, contact a <a href="https://students.unimelb.edu.au/student-support/advice-and-help/stop-1/categories/course-planning" target = "_blank" className="underline">course adviser</a>.
+                * If you are unsure about your plan, consult the <a href="https://handbook.unimelb.edu.au/search" target = "_blank" className="underline text-white">University Handbook</a>.<br />
+                If you remain unsure, contact a <a href="https://students.unimelb.edu.au/student-support/advice-and-help/stop-1/categories/course-planning" target = "_blank" className="underline text-white">course adviser</a>.
             </p>
         </div>
 
