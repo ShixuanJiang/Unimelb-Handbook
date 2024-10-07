@@ -8,7 +8,10 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Istok Web', 'Itim', 'Inconsolata', 'Inria Sans']
-      }
+      },
+      gridTemplateColumns: {
+        '70/30': '70% 28%', 
+      }, 
       
     },
   },
