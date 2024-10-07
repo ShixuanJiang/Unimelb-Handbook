@@ -1,0 +1,85 @@
+.top-header {
+  background-color: #094183;
+  /* The blue background */
+  padding: 1px;
+  color: white;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.unimelb-logo {
+  height: 80px;
+  margin-left: 317px;
+  margin-right: 10px;
+}
+
+.page-title {
+  font-size: 16px;
+  margin: 0;
+  position: relative;
+  padding-top: 17px;
+}
+
+.page-title::before {
+  content: "";
+  /* This creates the line */
+  position: absolute;
+  top: 7px;
+  /* Adjusts the distance of the line from the text */
+  left: 0;
+  width: 22px;
+  /* Length of the line */
+  height: 2px;
+  /* Thickness of the line */
+  background-color: white;
+  /* Color of the line */
+}
+
+.footer-container {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-top {
+  display: flex;
+  height: 92px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #094183;
+}
+
+.max-width {
+  display: flex;
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  justify-content: space-between;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.05;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+
+.app-bar-section {
+  display: flex;
+  padding: 0 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  height: 40px;
+}
