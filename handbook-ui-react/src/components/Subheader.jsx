@@ -4,7 +4,7 @@ import { EllipsisVerticalIcon, ShareIcon, PrinterIcon } from '@heroicons/react/2
 const Subheader = () => {
   return (
     <>
-      <header className="relative flex flex-col bg-blue-900 px-8 pt-4 pb-6">
+      <header className="relative flex flex-col bg-blue-500 px-8 pt-4 pb-6">
         {/* First Line */}
         <div className="flex items-center space-x-4">
           <span className="shrink-0 text-base font-semibold text-white">
