@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "heroku-postbuild": "npm run build && mv build ../staticfiles",
+    "heroku-postbuild": "npm run build && mv dist ../staticfiles",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server --watch src/jobs.json --port 8000"
