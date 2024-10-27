@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 # Create your models here.
 
 class Course(models.Model):
-    course_id = models.AutoField(primary_key=True)
+         course_id = models.AutoField(primary_key=True)
     # 课程名称
     title = models.CharField(max_length=255)
     # 课程代码
