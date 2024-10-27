@@ -23,4 +23,4 @@ jobs:
         pip install pylint
     - name: Analyse the code with pylint
       run: |
-        pylint $(git ls-files '*.py') || true  # 使用 `|| true` 避免构建因 Pylint 警告失败
+        pylint $(git ls-files '*.py') --rcfile=.pylintrc || true  # 使用 `|| true` 避免构建因 Pylint 警告失败
