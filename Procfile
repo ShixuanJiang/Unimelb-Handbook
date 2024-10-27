@@ -1,0 +1,1 @@
+web: gunicorn Unimelb-Handbook.wsgi --log-file -
