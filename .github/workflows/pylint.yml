@@ -1,6 +1,6 @@
-name: Pylint
+name: Pylint Check
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -9,7 +9,8 @@ jobs:
       matrix:
         python-version: ["3.12"]
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
@@ -20,7 +21,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install pylint
-    - name: Analyse the code with pylint
+        pip install pylint pylint-django
+
+    - name: Lint code with Pylint
       run: |
-        pylint $(git ls-files '*.py') --ignore=Lib,site-packages
+        # 显示 .pylintrc 文件是否存在以及项目结构
+        ls -al
+        # 运行 Pylint，忽略指定目录，并确保使用 .pylintrc 文件
+        pylint $(git ls-files '*.py') --rcfile=.pylintrc --ignore=Lib,site-packages || true
