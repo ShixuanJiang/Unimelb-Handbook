@@ -4,6 +4,7 @@ import './index.css'
 import './App.css'
 import WelcomePage from './pages/WelcomePage';
 import MainPage from './pages/MainPage';
+import SearchPage from './pages/SearchPage';
 
 
 
@@ -11,7 +12,8 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/">
             <Route index element={<WelcomePage />} />,
-            <Route path='mainpage' element={<MainPage />} />
+            <Route path='mainpage' element={<MainPage />} />,
+            <Route path='searchsubject' element={<SearchPage />} />
         </Route>
     )
 );
