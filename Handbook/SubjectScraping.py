@@ -1,98 +1,70 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 import csv
 
+# Base URL of the subject search page
+base_url = "https://handbook.unimelb.edu.au/search?types%5B%5D=subject&year=2024&level_type%5B%5D=all&campus_and_attendance_mode%5B%5D=all&org_unit%5B%5D=all&page={}&sort=_score%7Cdesc"
 
-def extract_subject_info(subject):
-    subject_name = subject.find('h3').text.strip()
-    subject_code = subject.find('span', class_='search-result-item__code').text.strip()
-
-    meta_primary = subject.find('div', class_='search-result-item__meta-primary')
-    primary_info = meta_primary.find('p').text.strip() if meta_primary else "Not available"
-
-    meta_secondary = subject.find('div', class_='search-result-item__meta-secondary')
-    subject_url = 'https://handbook.unimelb.edu.au' + subject.find('a', class_='search-result-item__anchor')['href']
-    if meta_secondary and meta_secondary.find('p'):
-        credit_points_text = meta_secondary.find('p').text.strip()
-        match = re.search(r'\d+', credit_points_text)
-        credit_points = match.group() if match else "0"
-    else:
-        credit_points = "0"
-
-    return {
-        "Subject Name": subject_name,
-        "Subject Code": subject_code,
-        "Primary Info": primary_info,
-        "Credit Points": credit_points,
-        "Subject Url": subject_url
-    }
+# Headers to mimic a browser visit
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+}
 
 
-def fetch_subjects_from_page(url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0"
-    }
-
+def scrape_subjects(page_number):
+    # Send a GET request to the URL with the page number
+    url = base_url.format(page_number)
     response = requests.get(url, headers=headers)
+
+    # Check if the request was successful
     if response.status_code == 200:
+        # Parse the HTML content using BeautifulSoup
         soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Extract different categories from the page
+        data = []
+
+        # Extract subject names and their URLs
         subjects = soup.find_all('li', class_='search-result-item')
-        return [extract_subject_info(subject) for subject in subjects]
+        for subject in subjects:
+            subject_name = subject.find('h3').get_text(strip=True)
+            subject_code = subject.find('span', class_='search-result-item__code').get_text(strip=True)
+            subject_type = subject.find('span', class_='search-result-item__flag').get_text(strip=True)
+            subject_url = "https://handbook.unimelb.edu.au" + subject.find('a', class_='search-result-item__anchor')[
+                'href']
+            primary_info = subject.find('div', class_='search-result-item__meta-primary').get_text(strip=True)
+            credits = subject.find('div', class_='search-result-item__meta-secondary').get_text(strip=True)
+
+            # Append subject data to list
+            data.append([subject_name, subject_code, subject_type, primary_info, credits, subject_url])
+
+        return data
     else:
-        print(f"无法获取页面内容。状态码: {response.status_code}")
+        print(f"Failed to retrieve data from the website. Status code: {response.status_code}")
         return []
 
 
-def find_next_page_url(soup):
-    next_page = soup.find('a', string='Next ›')
-    if not next_page:
-        next_page = soup.find('a', string='Last ››')
-    if next_page:
-        return next_page['href']
-    return None
+# Function to scrape multiple pages and save data
+def scrape_all_subjects():
+    page_number = 1
+    all_data = []
 
-
-def save_to_csv(data, filename):
-    keys = data[0].keys() if data else []
-    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=keys)
-        writer.writeheader()
-        for row in data:
-            writer.writerow(row)
-
-
-def main():
-    base_url = 'https://handbook.unimelb.edu.au/search?types%5B%5D=subject'
-    current_page_url = base_url
-    all_subjects = []
-
-    while current_page_url:
-        print(f"处理页面: {current_page_url}")
-        subjects = fetch_subjects_from_page(current_page_url)
-        all_subjects.extend(subjects)
-
-        # 请求当前页面的HTML以查找下一页链接
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0"
-        }
-
-        response = requests.get(current_page_url, headers=headers)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            next_page_url = find_next_page_url(soup)
-            if next_page_url:
-                current_page_url = f"https://handbook.unimelb.edu.au{next_page_url}"
-            else:
-                print("没有找到下一页，爬取结束。")
-                current_page_url = None
-        else:
-            print(f"无法获取页面内容。状态码: {response.status_code}")
+    while True:
+        print(f"Scraping page {page_number}...")
+        data = scrape_subjects(page_number)
+        if not data:
             break
+        all_data.extend(data)
+        page_number += 1
 
-    # 保存所有科目信息到CSV文件
-    save_to_csv(all_subjects, 'subjects_info.csv')
+    # Save the extracted data to a CSV file
+    with open('unimelb_subjects.csv', 'w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Subject Name', 'Subject Code', 'Subject Type', 'Primary Info', 'Credits', 'URL'])
+        writer.writerows(all_data)
+
+    print("Data has been successfully extracted and saved to 'unimelb_subjects.csv'")
 
 
-if __name__ == "__main__":
-    main()
+# Start scraping
+scrape_all_subjects()
