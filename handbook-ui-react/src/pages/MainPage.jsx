@@ -4,7 +4,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Checklist from "../components/Checklist";
 import Filter from "../components/Filter";
-import SubjectCard from "../components/SubjectCard";
+import SubjectSection from "../components/SubjectSection";
+
 
 const MainPage = () => {
   return (
@@ -15,7 +16,7 @@ const MainPage = () => {
         <Filter />
 
         <div className="mx-4 flex-grow justify-stretch">
-          <SubjectCard />
+          <SubjectSection />
         </div>
 
         <div className="mr-[317px]">
