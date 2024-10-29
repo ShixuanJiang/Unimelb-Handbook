@@ -1,12 +1,9 @@
 import React from "react";
 import Searchbar from "../components/Searchbar";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const SearchPage = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     // Scroll to the top when the component mounts
     window.scrollTo(0, 0);
@@ -41,13 +38,13 @@ const SearchPage = () => {
 
   return (
     <>
-      <header className="flex items-center justify-between bg-blue-900 p-4">
+      <header className="flex items-center justify-between bg-[#094183] p-4">
         <div className="container mx-auto flex justify-center">
           <Searchbar />
         </div>
         <Link to="/courseplanner">
           <button
-            className="text-xl text-white"
+            className="text-xl text-white hover:text-[#000F46] transition duration-300 transform hover:scale-110"
             style={{ marginRight: "300px" }}
           >
             ✖
