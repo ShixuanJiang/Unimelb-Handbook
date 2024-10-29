@@ -1,14 +1,23 @@
 import React from "react";
 import Searchbar from "../components/Searchbar";
-import {useState} from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SearchPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
+
   const [showSubjectLevels, setShowSubjectLevels] = useState(true);
   const [showStudyPeriods, setShowStudyPeriods] = useState(true);
   const [showAreaOfStudy, setShowAreaOfStudy] = useState(true);
 
-    // State to store selected filters
-    const [selectedFilters, setSelectedFilters] = useState([]);
+  // State to store selected filters
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
   // Handle checkbox change
   const handleFilterChange = (event) => {
@@ -32,10 +41,18 @@ const SearchPage = () => {
 
   return (
     <>
-      <header className="bg-blue-900 p-4">
+      <header className="flex items-center justify-between bg-blue-900 p-4">
         <div className="container mx-auto flex justify-center">
           <Searchbar />
         </div>
+        <Link to="/courseplanner">
+          <button
+            className="text-xl text-white"
+            style={{ marginRight: "300px" }}
+          >
+            ✖
+          </button>
+        </Link>
       </header>
 
       <div
@@ -83,113 +100,188 @@ const SearchPage = () => {
               Reset
             </button>
           </div>
-          
+
           {/* Subject Levels Collapsible Section */}
-          <div style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              fontWeight: "bold",
-              color: "#333",
-            }} onClick={toggleSubjectLevels}>
+          <div
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              padding: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                cursor: "pointer",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+              onClick={toggleSubjectLevels}
+            >
               <span>Subject Levels</span>
               <span>{showSubjectLevels ? "▲" : "▼"}</span>
             </div>
-            
+
             {showSubjectLevels && (
               <div style={{ marginTop: "10px" }}>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Level 1" onChange={handleFilterChange} /> Level 1
+                  <input
+                    type="checkbox"
+                    value="Level 1"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Level 1
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Level 2" onChange={handleFilterChange} /> Level 2
+                  <input
+                    type="checkbox"
+                    value="Level 2"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Level 2
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Level 3" onChange={handleFilterChange} /> Level 3
+                  <input
+                    type="checkbox"
+                    value="Level 3"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Level 3
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Honours (Level 4)" onChange={handleFilterChange} /> Honours (Level 4)
+                  <input
+                    type="checkbox"
+                    value="Honours (Level 4)"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Honours (Level 4)
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="All Graduate Coursework" onChange={handleFilterChange} /> All Graduate Coursework
+                  <input
+                    type="checkbox"
+                    value="All Graduate Coursework"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  All Graduate Coursework
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="All Research" onChange={handleFilterChange} /> All Research
+                  <input
+                    type="checkbox"
+                    value="All Research"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  All Research
                 </label>
               </div>
             )}
           </div>
 
           {/* Study Periods Collapsible Section */}
-          <div style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              fontWeight: "bold",
-              color: "#333",
-            }} onClick={toggleStudyPeriods}>
+          <div
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              padding: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                cursor: "pointer",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+              onClick={toggleStudyPeriods}
+            >
               <span>Study Periods</span>
               <span>{showStudyPeriods ? "▲" : "▼"}</span>
             </div>
-            
+
             {showStudyPeriods && (
               <div style={{ marginTop: "10px" }}>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Semester 1" onChange={handleFilterChange} /> Semester 1
+                  <input
+                    type="checkbox"
+                    value="Semester 1"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Semester 1
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Semester 2" onChange={handleFilterChange} /> Semester 2
+                  <input
+                    type="checkbox"
+                    value="Semester 2"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Semester 2
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Summer Term" onChange={handleFilterChange} /> Summer Term
+                  <input
+                    type="checkbox"
+                    value="Summer Term"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Summer Term
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Winter Term" onChange={handleFilterChange} /> Winter Term
+                  <input
+                    type="checkbox"
+                    value="Winter Term"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Winter Term
                 </label>
               </div>
             )}
           </div>
 
           {/* Area of Study Collapsible Section */}
-          <div style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              fontWeight: "bold",
-              color: "#333",
-            }} onClick={toggleAreaOfStudy}>
+          <div
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              padding: "10px",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                cursor: "pointer",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+              onClick={toggleAreaOfStudy}
+            >
               <span>Area of Study</span>
               <span>{showAreaOfStudy ? "▲" : "▼"}</span>
             </div>
-            
+
             {showAreaOfStudy && (
               <div style={{ marginTop: "10px" }}>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Computer Science" onChange={handleFilterChange} /> Computer Science
+                  <input
+                    type="checkbox"
+                    value="Computer Science"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Computer Science
                 </label>
                 <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Information Systems" onChange={handleFilterChange} /> Information Systems
+                  <input
+                    type="checkbox"
+                    value="Information Systems"
+                    onChange={handleFilterChange}
+                  />{" "}
+                  Information Systems
                 </label>
               </div>
             )}
@@ -247,42 +339,41 @@ const SearchPage = () => {
   );
 };
 
-
 const boxStyle = {
-    backgroundColor: '#f9f9f9',
-    padding: '20px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    height: '160px',
-    textAlign: 'center',
-  };
+  backgroundColor: "#f9f9f9",
+  padding: "20px",
+  border: "1px solid #ddd",
+  borderRadius: "4px",
+  height: "160px",
+  textAlign: "center",
+};
 
 const checkboxLabelStyle = {
-    display: "block",
-    padding: "5px 0",
-    fontSize: "14px",
-    color: "#333",
-  };
+  display: "block",
+  padding: "5px 0",
+  fontSize: "14px",
+  color: "#333",
+};
 
 const tagStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    borderRadius: '16px',
-    padding: '5px 10px',
-    fontSize: '14px',
-  };
+  display: "flex",
+  alignItems: "center",
+  backgroundColor: "#007bff",
+  color: "#fff",
+  borderRadius: "16px",
+  padding: "5px 10px",
+  fontSize: "14px",
+};
 
 // Styling for reset button
 const resetButtonStyle = {
-    marginTop: '10px',
-    padding: '5px 10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  };
+  marginTop: "10px",
+  padding: "5px 10px",
+  backgroundColor: "#007bff",
+  color: "#fff",
+  border: "none",
+  borderRadius: "4px",
+  cursor: "pointer",
+};
 
 export default SearchPage;

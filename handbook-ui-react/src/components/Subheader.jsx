@@ -11,7 +11,7 @@ const Subheader = () => {
       <header className="relative flex flex-col  pb-6 pt-4 mx-[317px]">
         {/* First Line */}
         <div className="flex items-center space-x-4">
-          <span className="shrink-0 text-base font-semibold text-white">
+          <span className="shrink-0 text-lg font-semibold text-white">
             My Course Plan
           </span>
           <button>
