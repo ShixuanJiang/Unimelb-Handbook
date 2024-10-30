@@ -5,6 +5,7 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
   const [showSubjectLevels, setShowSubjectLevels] = useState(true);
   const [showStudyPeriods, setShowStudyPeriods] = useState(true);
   const [showAreaOfStudy, setShowAreaOfStudy] = useState(true);
+  const [showCampuses, setShowCampuses] = useState(true); // New state for Campuses section
 
   useEffect(() => {
     const initialCheckboxState = selectedFilters.reduce(
@@ -28,7 +29,7 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
   };
 
   return (
-    <aside style={{ width: "20%", backgroundColor: "#F1F1F1", padding: "20px" }}>
+    <aside style={{ width: "15%", backgroundColor: "#F1F1F1", padding: "20px", marginLeft: "80px"}}>
       {/* Applied Filters Section */}
       <div style={{ marginBottom: "20px" }}>
         <h4>Filter applied</h4>
@@ -122,6 +123,43 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
                   onChange={handleCheckboxChange}
                 />{" "}
                 {area}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Campuses Collapsible Section */}
+      <div style={sectionStyle}>
+        <div style={toggleHeaderStyle} onClick={() => setShowCampuses(!showCampuses)}>
+          <span>Campuses</span>
+          <span>{showCampuses ? "▲" : "▼"}</span>
+        </div>
+
+        {showCampuses && (
+          <div style={{ marginTop: "10px" }}>
+            {[
+              "All campuses/attendance modes",
+              "Parkville",
+              "Southbank",
+              "Burnley",
+              "Creswick",
+              "Dookie",
+              "Hawthorn",
+              "Shepparton",
+              "Werribee",
+              "Off Campus",
+              "Online",
+              "Dual-Delivery",
+            ].map((campus) => (
+              <label key={campus} style={checkboxLabelStyle}>
+                <input
+                  type="checkbox"
+                  value={campus}
+                  checked={checkboxState[campus] || false} // Reflects checkboxState for each checkbox
+                  onChange={handleCheckboxChange}
+                />{" "}
+                {campus}
               </label>
             ))}
           </div>
