@@ -3,6 +3,7 @@ import Searchbar from "../components/Searchbar";
 import SearchPageFilter from "../components/SearchPageFilter";
 import SearchCard from "../containers/subjectCard/SearchCard";
 import { Link } from "react-router-dom";
+import subjectsData from "../subjects.json"; // Ensure this path is correct
 
 const SearchPage = () => {
   useEffect(() => {
@@ -11,6 +12,21 @@ const SearchPage = () => {
   }, []);
 
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+  // Function to extract study periods from the "info" field
+  const getStudyPeriods = (info) => {
+    const periods = [];
+    if (info.includes("Semester 1")) periods.push("Semester 1");
+    if (info.includes("Semester 2")) periods.push("Semester 2");
+    if (info.includes("Summer Term")) periods.push("Summer Term");
+    if (info.includes("Winter Term")) periods.push("Winter Term");
+    return periods;
+  };
+
+  // Function to extract level from the "code" field
+  const getLevelFromCode = (code) => {
+    return parseInt(code.match(/\d/)[0], 10);
+  };
 
   // Handle checkbox change
   const handleFilterChange = (event) => {
@@ -24,25 +40,6 @@ const SearchPage = () => {
 
   // Reset filters
   const resetFilters = () => setSelectedFilters([]);
-
-  // Sample subject data
-  const subjects = [
-    {
-      name: "Today's Science, Tomorrow's World",
-      code: "SCIE10005",
-      points: 12.5,
-      studyPeriods: ["Summer Term", "Winter Term", "Semester 1", "Semester 2"],
-      level: 1,
-    },
-    {
-      name: "Introduction to Accounting",
-      code: "ACCT10004",
-      points: 12.5,
-      studyPeriods: ["Semester 2"],
-      level: 1,
-    },
-    // Add more subjects as needed
-  ];
 
   return (
     <>
@@ -67,14 +64,15 @@ const SearchPage = () => {
         {/* Main content */}
         <main style={{ width: "80%", padding: "20px", backgroundColor: "#fff" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
-            {subjects.map((subject, index) => (
+            {subjectsData.subjects.map((subject) => (
               <SearchCard
-                key={index}
-                name={subject.name}
+                key={subject.course_id}
+                name={subject.title}
                 code={subject.code}
-                points={subject.points}
-                studyPeriods={subject.studyPeriods}
-                level={subject.level}
+                points={subject.credits}
+                studyPeriods={getStudyPeriods(subject.info)}
+                level={getLevelFromCode(subject.code)}
+                url={subject.url}
               />
             ))}
           </div>
