@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Searchbar from "../components/Searchbar";
 import SearchPageFilter from "../components/SearchPageFilter";
+import SearchCard from "../containers/subjectCard/SearchCard";
 import { Link } from "react-router-dom";
 
 const SearchPage = () => {
@@ -23,6 +24,25 @@ const SearchPage = () => {
 
   // Reset filters
   const resetFilters = () => setSelectedFilters([]);
+
+  // Sample subject data
+  const subjects = [
+    {
+      name: "Today's Science, Tomorrow's World",
+      code: "SCIE10005",
+      points: 12.5,
+      studyPeriods: ["Summer Term", "Winter Term", "Semester 1", "Semester 2"],
+      level: 1,
+    },
+    {
+      name: "Introduction to Accounting",
+      code: "ACCT10004",
+      points: 12.5,
+      studyPeriods: ["Semester 2"],
+      level: 1,
+    },
+    // Add more subjects as needed
+  ];
 
   return (
     <>
@@ -47,32 +67,21 @@ const SearchPage = () => {
         {/* Main content */}
         <main style={{ width: "80%", padding: "20px", backgroundColor: "#fff" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
-            {/* Example boxes for subjects */}
-            <div style={boxStyle}>Subject 1</div>
-            <div style={boxStyle}>Subject 2</div>
-            <div style={boxStyle}>Subject 3</div>
-            <div style={boxStyle}>Subject 4</div>
-            <div style={boxStyle}>Subject 5</div>
-            <div style={boxStyle}>Subject 6</div>
-            <div style={boxStyle}>Subject 7</div>
-            <div style={boxStyle}>Subject 8</div>
-            <div style={boxStyle}>Subject 9</div>
-            <div style={boxStyle}>Subject 10</div>
-            <div style={boxStyle}>Subject 11</div>
+            {subjects.map((subject, index) => (
+              <SearchCard
+                key={index}
+                name={subject.name}
+                code={subject.code}
+                points={subject.points}
+                studyPeriods={subject.studyPeriods}
+                level={subject.level}
+              />
+            ))}
           </div>
         </main>
       </div>
     </>
   );
-};
-
-const boxStyle = {
-  backgroundColor: "#f9f9f9",
-  padding: "20px",
-  border: "1px solid #ddd",
-  borderRadius: "4px",
-  height: "160px",
-  textAlign: "center",
 };
 
 export default SearchPage;
