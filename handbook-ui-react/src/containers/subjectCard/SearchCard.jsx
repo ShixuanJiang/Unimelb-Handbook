@@ -8,34 +8,54 @@ const studyPeriodsOrder = [
   "Semester 2",
 ];
 
-const SearchCard = ({ name, code, points, studyPeriods, level, url, onClick }) => {
+const SearchCard = ({
+  name,
+  code,
+  points,
+  studyPeriods,
+  level,
+  url,
+  onClick,
+}) => {
   const periods = new Set(studyPeriods);
 
-  // Function to handle information icon click
   const handleInfoClick = (event) => {
-    event.stopPropagation(); // Prevent triggering the card's main click event
-    window.open(url, "_blank"); // Open the URL in a new tab
+    event.stopPropagation(); // Prevents triggering the card's main click event
+    window.open(url, "_blank"); // Opens the URL in a new tab
   };
 
   return (
-    <div onClick={onClick} className="flex min-h-[200px] w-full transform flex-col justify-between overflow-hidden rounded-lg border border-gray-300 bg-gray-100 shadow-md transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
+    <div
+      onClick={onClick}
+      className="flex min-h-[200px] w-full transform cursor-pointer flex-col justify-between overflow-hidden rounded-lg border border-gray-300 bg-gray-100 shadow-md transition-transform hover:scale-105 hover:shadow-lg"
+    >
       {/* Header */}
-      <div className="p-2 text-left text-lg font-bold text-white" style={{ backgroundColor: "#094183" }}>
+      <div
+        className="p-2 text-left text-lg font-bold text-white"
+        style={{ backgroundColor: "#094183" }}
+      >
         {name}
       </div>
 
-      {/* Row for Information Icon and Subject Code */}
-      <div className="flex items-center justify-between px-4 mt-2">
-        <p className="text-lg font-bold">{code}</p>
-        <InformationCircleIcon 
-          onClick={handleInfoClick} // Use handleInfoClick to open the URL
-          className="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-700" 
-        />
+      {/* Row for Information Icon, Subject Code, and Points */}
+      <div className="mt-2 flex items-center justify-between px-4">
+        <div className="flex flex-col">
+          <p className="text-lg font-bold">{code}</p>
+          <span className="text-sm text-gray-600">
+            {points} Points
+          </span>{" "}
+          {/* Adjusted margin-top for closer spacing */}
+        </div>
+        <div
+          className="relative flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200 hover:bg-gray-200"
+          onClick={handleInfoClick} // Triggers URL opening
+        >
+          <InformationCircleIcon className="h-6 w-6 cursor-pointer text-gray-500 hover:text-black" />
+        </div>
       </div>
 
       {/* Body */}
       <div className="flex flex-1 flex-col justify-between p-2 px-4">
-        <p className="mb-5 text-sm text-gray-600">{points} Points</p>
         <div className="mt-auto flex items-end justify-between">
           {/* Study Periods */}
           <div className="mb-1 grid grid-cols-2 gap-1">
@@ -50,7 +70,7 @@ const SearchCard = ({ name, code, points, studyPeriods, level, url, onClick }) =
             ))}
           </div>
           {/* Level Display */}
-          <div className="text-left text-lg font-bold text-gray-800">
+          <div className="mr-1 text-left text-lg font-bold text-gray-800">
             Level {level}
           </div>
         </div>
