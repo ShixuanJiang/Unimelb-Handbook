@@ -80,7 +80,7 @@ try:
                     # 写入CSV
                     writer.writerow([name, code, subject_url, level, credit_points, offering_info])
 
-            time.sleep(1)  # 避免请求过于频繁
+
 except IOError as e:
     print(f"Error writing to subjects_info.csv: {e}")
     exit()
