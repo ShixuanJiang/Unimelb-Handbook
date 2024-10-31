@@ -39,10 +39,7 @@ def fetch_majors_minors_specialisations(course_url):
                     major_with_url = f"{name} ({course_url.split('/courses')[0]}{link})" if link else name
                     all_majors.append(major_with_url)
             # 将表格的内容替换为提取的名称和URL
-            text_content = text_content.replace(
-                table.get_text(separator=" ", strip=True),
-                f"|*{', '.join(all_majors)}*|"
-            )
+            text_content = text_content.replace(table.get_text(separator=" ", strip=True), ", ".join(all_majors))
 
         return text_content
 
@@ -51,23 +48,22 @@ def fetch_majors_minors_specialisations(course_url):
 
     return majors_info
 
-# 打开CSV文件以保存majors, minors & specialisations信息
-with open("courses_majors_minors_specialisations.csv", mode="w", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
-    # 写入CSV文件的表头
-    writer.writerow(["Course Code", "Majors, Minors & Specialisations"])
+# # 打开CSV文件以保存majors, minors & specialisations信息
+# with open("courses_majors_minors_specialisations.csv", mode="w", newline="", encoding="utf-8") as file:
+#     writer = csv.writer(file)
+#     # 写入CSV文件的表头
+#     writer.writerow(["Course Code", "Majors, Minors & Specialisations"])
+#
+#     # 遍历每一个course条目，从之前保存的courses_info.csv中读取
+#     for index, row in courses_df.iterrows():
+#         code = row["Course Code"]  # 获取课程代码
+#         course_url = row["Course Url"]  # 获取课程URL
+#         print(f"正在爬取 {code} 的majors, minors & specialisations信息...")
+#         # 爬取课程的majors, minors & specialisations信息
+#         majors_info = fetch_majors_minors_specialisations(course_url)
+#
+#         # 将爬取的信息写入CSV文件
+#         writer.writerow([code, majors_info['majors']])
 
-    # 遍历每一个course条目，从之前保存的courses_info.csv中读取
-    for index, row in courses_df.iterrows():
-        code = row["Course Code"]  # 获取课程代码
-        course_url = row["Course Url"]  # 获取课程URL
-        print(f"正在爬取 {code} 的majors, minors & specialisations信息...")
-        # 爬取课程的majors, minors & specialisations信息
-        majors_info = fetch_majors_minors_specialisations(course_url)
-
-        # 将爬取的信息写入CSV文件
-        writer.writerow([code, majors_info['majors']])
-
-print("信息已成功爬取并保存到courses_majors_minors_specialisations.csv文件中！")
-
-# print(fetch_majors_minors_specialisations("https://handbook.unimelb.edu.au/2024/courses/b-sci"))
+# print("信息已成功爬取并保存到courses_majors_minors_specialisations.csv文件中！")
+print(fetch_majors_minors_specialisations("https://handbook.unimelb.edu.au/2024/courses/b-sci"))
