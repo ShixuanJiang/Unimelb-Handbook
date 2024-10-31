@@ -26,7 +26,7 @@ const Subheader = () => {
         {/* Second Line */}
         <div className="flex space-x-3 py-2 text-4xl pt-5 font-bold text-white">
           <span>Bachelor of Science</span>
-          <button className="underline hover:text-blue-500">Select Course</button>
+          <button className="underline hover:text-blue-500">Computing and Software Systems</button>
         </div>
 
         {/* Buttons */}
