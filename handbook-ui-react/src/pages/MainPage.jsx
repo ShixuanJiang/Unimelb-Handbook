@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Checklist from "../components/Checklist";
 import Filter from "../components/Filter";
 import SubjectSection from "../components/SubjectSection";
+import Button from "../components/Button";
 
 
 const MainPage = () => {
@@ -23,6 +24,7 @@ const MainPage = () => {
           <Checklist />
         </div>
       </div>
+      <Button />
       <Footer />
     </>
   );
