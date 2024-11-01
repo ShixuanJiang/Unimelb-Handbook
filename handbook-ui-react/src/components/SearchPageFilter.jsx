@@ -5,7 +5,7 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
   const [showSubjectLevels, setShowSubjectLevels] = useState(true);
   const [showStudyPeriods, setShowStudyPeriods] = useState(true);
   const [showAreaOfStudy, setShowAreaOfStudy] = useState(true);
-  const [showCampuses, setShowCampuses] = useState(true); // New state for Campuses section
+
 
   useEffect(() => {
     const initialCheckboxState = selectedFilters.reduce(
@@ -50,7 +50,7 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
             </span>
           ))}
         </div>
-        <button onClick={handleResetFilters} style={resetButtonStyle}>
+        <button className="transition-transform hover:scale-105 hover:shadow-lg" onClick={handleResetFilters} style={resetButtonStyle}>
           Reset
         </button>
       </div>
@@ -129,42 +129,7 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
         )}
       </div>
 
-      {/* Campuses Collapsible Section */}
-      <div style={sectionStyle}>
-        <div style={toggleHeaderStyle} onClick={() => setShowCampuses(!showCampuses)}>
-          <span>Campuses</span>
-          <span>{showCampuses ? "▲" : "▼"}</span>
-        </div>
-
-        {showCampuses && (
-          <div style={{ marginTop: "10px" }}>
-            {[
-              "All campuses/attendance modes",
-              "Parkville",
-              "Southbank",
-              "Burnley",
-              "Creswick",
-              "Dookie",
-              "Hawthorn",
-              "Shepparton",
-              "Werribee",
-              "Off Campus",
-              "Online",
-              "Dual-Delivery",
-            ].map((campus) => (
-              <label key={campus} style={checkboxLabelStyle}>
-                <input
-                  type="checkbox"
-                  value={campus}
-                  checked={checkboxState[campus] || false} // Reflects checkboxState for each checkbox
-                  onChange={handleCheckboxChange}
-                />{" "}
-                {campus}
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
+      
     </aside>
   );
 };
@@ -204,11 +169,11 @@ const tagStyle = {
 
 const resetButtonStyle = {
   marginTop: "10px",
-  padding: "5px 10px",
-  backgroundColor: "#007bff",
+  padding: "2px 10px",
+  backgroundColor: "#000F46",
   color: "#fff",
   border: "none",
-  borderRadius: "4px",
+  borderRadius: "9999px",
   cursor: "pointer",
 };
 
