@@ -3,10 +3,23 @@
 import os
 import sys
 
+from utils.file_util import dirs_mk_static_list
+
+
+def make_need_statics_folders():
+    """ 构建静态文件夹
+    :return:
+    """
+    static_name_list = ['admin', 'debug_toolbar',
+                        'django_extensions', 'images', 'goods_images',
+                        'import_export', 'rest_framework', 'drf_api_logger']
+    dirs_mk_static_list(static_name_list)
+
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_introduction.settings')
+    make_need_statics_folders()
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'base.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
