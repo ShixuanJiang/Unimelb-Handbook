@@ -1,5 +1,5 @@
 import React from "react";
-import SubjectCard from "../containers/subjectCard/SubjectCard";
+import SubjectCard from "../containers/SubjectCard";
 
 const SubjectSection = ({ isChecklistExpanded }) => {
   return (
@@ -19,7 +19,7 @@ const SubjectSection = ({ isChecklistExpanded }) => {
               <SubjectCard />
               <SubjectCard />
             </div>
-          </div>
+              </div>
           {/* Semester 2 */}
           <div>
             <h3 className="text-lg font-bold text-gray-600">Semester 2</h3>

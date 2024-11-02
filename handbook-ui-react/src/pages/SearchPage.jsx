@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Searchbar from "../components/Searchbar";
 import SearchPageFilter from "../components/SearchPageFilter";
-import SearchCard from "../containers/subjectCard/SearchCard";
+import SearchCard from "../containers/SearchCard";
 import { Link } from "react-router-dom";
-import subjectsData from "../subjects.json"; // Ensure this path is correct
+import subjectsData from "../data/subjects.json"; // Ensure this path is correct
 
 const SearchPage = () => {
   useEffect(() => {

@@ -21,10 +21,11 @@ const MainPage = () => {
         </div>
 
         <div className="mr-[317px]">
+          <Button />
           <Checklist />
         </div>
       </div>
-      <Button />
+      
       <Footer />
     </>
   );
