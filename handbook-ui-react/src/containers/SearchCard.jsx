@@ -9,20 +9,15 @@ const studyPeriodsOrder = [
 ];
 
 const SearchCard = ({
-  name,
-  code,
-  points,
-  studyPeriods,
-  level,
-  url,
+  name = "Unknown Subject",
+  code = "Unknown Code",
+  points = 0,
+  studyPeriods = [], // Default to an empty array to avoid `undefined.map` error
+  level = "N/A",
+  url = "#",
   onClick,
 }) => {
   const periods = new Set(studyPeriods);
-
-  const handleInfoClick = (event) => {
-    event.stopPropagation(); // Prevents triggering the card's main click event
-    window.open(url, "_blank"); // Opens the URL in a new tab
-  };
 
   return (
     <div
@@ -41,14 +36,15 @@ const SearchCard = ({
       <div className="mt-2 flex items-center justify-between px-4">
         <div className="flex flex-col">
           <p className="text-lg font-bold">{code}</p>
-          <span className="text-sm text-gray-600">
-            {points} Points
-          </span>{" "}
+          <span className="text-sm text-gray-600">{points} Points</span>{" "}
           {/* Adjusted margin-top for closer spacing */}
         </div>
         <div
           className="relative flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200 hover:bg-gray-200"
-          onClick={handleInfoClick} // Triggers URL opening
+          onClick={(event) => {
+            event.stopPropagation();
+            window.open(url, "_blank");
+          }} // Triggers URL opening
         >
           <InformationCircleIcon className="h-6 w-6 cursor-pointer text-gray-500 hover:text-black" />
         </div>

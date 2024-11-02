@@ -4,12 +4,31 @@ import SearchPageFilter from "../components/SearchPageFilter";
 import SearchCard from "../containers/SearchCard";
 import { Link } from "react-router-dom";
 import subjectsData from "../data/subjects.json"; // Ensure this path is correct
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addSubject, clearPosition } from "../redux/SubjectSlice";
 
 const SearchPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const selectedPosition = useSelector((state) => state.subject.selectedPosition);
+  console.log("SearchPage loaded, selectedPosition:", selectedPosition);
+
   useEffect(() => {
-    // Scroll to the top when the component mounts
     window.scrollTo(0, 0);
-  }, []);
+    console.log("SearchPage loaded, selectedPosition:", selectedPosition);
+  }, [selectedPosition]);
+
+  const handleSubjectSelect = (subject) => {
+    console.log("Subject selected:", subject, "Selected position:", selectedPosition);
+    if (selectedPosition !== null) {
+      dispatch(addSubject({ position: selectedPosition, subject }));
+      dispatch(clearPosition());
+      navigate("/courseplanner");
+    } else {
+      console.warn("No position selected; cannot add subject.");
+    }
+  };
 
   const [selectedFilters, setSelectedFilters] = useState([]);
 
@@ -71,8 +90,9 @@ const SearchPage = () => {
                 code={subject.code}
                 points={subject.credits}
                 studyPeriods={getStudyPeriods(subject.info)}
-                level={getLevelFromCode(subject.code)}
+                level={getLevelFromCode(subject.code) || "N/A"}
                 url={subject.url}
+                onClick={() => handleSubjectSelect(subject)}
               />
             ))}
           </div>

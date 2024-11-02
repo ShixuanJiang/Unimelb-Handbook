@@ -1,85 +1,36 @@
-import React from "react";
-import SubjectCard from "../containers/SubjectCard";
+// SubjectSection.jsx
+import React from 'react';
+import SubjectCard from '../containers/SubjectCard';
 
-const SubjectSection = ({ isChecklistExpanded }) => {
+const SubjectSection = ({ onAddSubject, addedSubjects }) => {
+  const years = ['2024', '2025', '2026'];
+  const semesters = ['Semester 1', 'Semester 2'];
+
   return (
-    <div className="flex justify-center py-4">
-      <div
-        className={`flex w-full flex-col space-y-6 ${isChecklistExpanded ? "lg:w-3/4" : "lg:w-full"}`}
-      >
-        {/* Year 2024 */}
-        <div>
-          <h2 className="text-3xl font-bold">2024</h2>
-          {/* Semester 1 */}
-          <div className="mb-3">
-            <h3 className="text-lg font-bold text-gray-600">Semester 1</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-            </div>
+    <div>
+      {years.map((year) => (
+        <div className='mt-3 ' key={year}>
+          <h2 className='text-3xl font-bold' >{year}</h2>
+          {semesters.map((semester, index) => (
+            <div key={index}>
+              <h3 className=" mt-1 text-lg font-bold text-gray-600">{semester}</h3>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {[0, 1, 2, 3].map((i) => {
+                  const position = `${year}-${semester}-${i}`;
+                  return (
+                    <SubjectCard
+                      key={i}
+                      position={position}
+                      subject={addedSubjects[position]} // Pass the subject if available
+                      onAdd={() => onAddSubject(position)}
+                    />
+                  );
+                })}
               </div>
-          {/* Semester 2 */}
-          <div>
-            <h3 className="text-lg font-bold text-gray-600">Semester 2</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
             </div>
-          </div>
+          ))}
         </div>
-        {/* Year 2025 */}
-        <div>
-          <h2 className="text-3xl font-bold">2025</h2>
-          {/* Semester 1 */}
-          <div className="mb-3">
-            <h3 className="text-lg font-bold text-gray-600">Semester 1</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-            </div>
-          </div>
-          {/* Semester 2 */}
-          <div>
-            <h3 className="text-lg font-bold text-gray-600">Semester 2</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-            </div>
-          </div>
-        </div>
-        {/* Year 2026 */}
-        <div>
-          <h2 className="text-3xl font-bold">2026</h2>
-          {/* Semester 1 */}
-          <div className="mb-3">
-            <h3 className="text-lg font-bold text-gray-600">Semester 1</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-            </div>
-          </div>
-          {/* Semester 2 */}
-          <div>
-            <h3 className="text-lg font-bold text-gray-600">Semester 2</h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-              <SubjectCard />
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

@@ -1,27 +1,23 @@
-import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
-import React from 'react'
-import './index.css'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WelcomePage from './pages/WelcomePage';
 import MainPage from './pages/MainPage';
 import SearchPage from './pages/SearchPage';
-
-
-
-const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/">
-            <Route index element={<WelcomePage />} />,
-            <Route path='courseplanner' element={<MainPage />} />,
-            <Route path='searchsubject' element={<SearchPage />} />
-        </Route>
-    )
-);
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const App = () => {
-    return (
-        <RouterProvider router={router} />
-    )
-}
+  return (
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/courseplanner" element={<MainPage />} />
+          <Route path="/searchsubject" element={<SearchPage />} />
+        </Routes>
+      </Router>
+    </Provider>
+  );
+};
 
-export default App
+export default App;
