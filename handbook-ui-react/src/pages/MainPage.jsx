@@ -31,10 +31,12 @@ const MainPage = () => {
         <SubjectSection onAddSubject={handleAddSubjectClick} addedSubjects={addedSubjects} />
         </div>
 
+        
+
         <div className="mr-[317px]">
-          <Button />
           <Checklist />
         </div>
+        <Button />
       </div>
       
       <Footer />

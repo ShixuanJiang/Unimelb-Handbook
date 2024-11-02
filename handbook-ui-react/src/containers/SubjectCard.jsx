@@ -1,6 +1,5 @@
 import React from "react";
 import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
-import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { setPosition } from '../redux/SubjectSlice';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const SubjectCard = ({ subject, position }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const handleAddSubject = () => {
     console.log("Add Subject clicked, position:", position); // Log click
     dispatch(setPosition(position)); // Dispatch position to Redux store
