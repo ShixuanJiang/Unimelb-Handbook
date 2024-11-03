@@ -24,12 +24,14 @@ class Course(models.Model):
     credits = models.PositiveIntegerField()
     #url
     url = models.TextField()
+    # semister
+    semester = models.CharField(verbose_name='semester',default='semester 1', null=True,blank=True, max_length=250)
 
     def level(self):
         numeric_part = self.code[4:]
         return int(numeric_part[0])
 
 class CoursePlan(models.Model):
-    student_id = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    student_id = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True,blank=True,default=None)
     course = models.ManyToManyField(Course)
     semester = models.CharField(max_length=50)
