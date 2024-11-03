@@ -1,0 +1,30 @@
+后端启动方式：
+1. 如果没有venv文件夹的话 执行virtualenv venv 启动虚拟环境
+2.右下角配置启动的环境为虚拟环境
+3. pip install -r requirements.txt 安装依赖
+4. python manage.py migrate   导入数据到db.sqlite
+5. python manage.py createsuperuser   创建管理员账号
+1.执行命令行： python manage.py runserver 8001 （启动后端服务8001端口）
+2.后端管理员界面 登录地址: 127.0.0.1:8001/admin    账号admin 密码123456
+3.后端接口文档 127.0.0.1:8001/docs
+
+前端启动：
+1.进入到handbook-ui-react 文件夹下
+2.执行yarn 命令
+3.执行 yarn run dev 启动前段服务
+4.前端启动好了之后 地址  127.0.0.1:5173 可以进入到前端页面
+Backend Startup Instructions:
+1. If there is no venv folder: Run virtualenv venv to create a virtual environment.
+2. Configure the environment: Make sure to activate the virtual environment in the bottom right corner.
+3. Install dependencies: Run pip install -r requirements.txt.
+4. Migrate the database: Execute python manage.py migrate to import data into db.sqlite.
+5. Create an admin user: Run python manage.py createsuperuser to set up an admin account.
+6. Start the backend server: Use the command python manage.py runserver 8001 to launch the backend on port 8001.
+7. Backend admin interface: Access it at 127.0.0.1:8001/admin with the username admin and password 123456.
+8. API documentation: Available at 127.0.0.1:8001/docs.
+
+Frontend Startup Instructions:
+1. Navigate to the handbook-ui-react folder.
+2. Run yarn command: Install all dependencies.
+3. Start the frontend server: Execute yarn run dev to launch the frontend service.
+4. Access the frontend page: Once started, visit 127.0.0.1:5173.
