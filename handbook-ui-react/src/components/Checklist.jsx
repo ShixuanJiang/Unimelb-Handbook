@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-const Checklist = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+const Checklist = ({ toggleExpand }) => {
+  // Set the initial state to false to show the expanded checklist on load
+  const [showChecklist, setShowChecklist] = useState(false);
 
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+  const toggleChecklist = () => {
+    const newShowChecklist = !showChecklist;
+    setShowChecklist(newShowChecklist);
+    toggleExpand(!newShowChecklist); // Pass the new state back to MainPage
   };
 
   return (
-    <div className={`transition-width duration-300 ease-in-out ${isCollapsed ? 'w-12' : 'w-96'} bg-gray-100 shadow-md h-full`}>
+    <div className={`transition-width duration-300 ease-in-out ${showChecklist ? 'w-12' : 'w-96'} bg-gray-100 shadow-md h-full`}>
       {/* Collapsed State Button */}
       <div className="flex items-center justify-between p-2">
-        {isCollapsed ? (
+        {showChecklist ? (
           <button
-            onClick={toggleCollapse}
+            onClick={toggleChecklist}
             className="flex items-center justify-center h-10 w-10 bg-gray-200 rounded-full shadow-lg text-sm font-bold transition-transform transform hover:scale-110"
           >
             <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
@@ -23,7 +26,7 @@ const Checklist = () => {
           <>
             <h2 className="text-xl font-bold">PLAN CHECKLIST</h2>
             <button
-              onClick={toggleCollapse}
+              onClick={toggleChecklist}
               className="p-2 rounded-full hover:bg-gray-200"
               aria-label="Toggle Collapse"
             >
@@ -34,7 +37,7 @@ const Checklist = () => {
       </div>
 
       {/* Content */}
-      {!isCollapsed && (
+      {!showChecklist && (
         <>
           <hr className="border-t-2 border-black mx-4 mb-4" />
           <div className="overflow-y-auto px-4">

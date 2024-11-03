@@ -6,26 +6,18 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addSubject, clearPosition } from "../redux/SubjectSlice";
-import axios from "axios";
-// import subjectsData from "../data/subjects.json"; // Import the JSON file for testing
+import subjectsData from "../data/subjects.json"; // Local test data
 
 const SearchPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedPosition = useSelector((state) => state.subject.selectedPosition);
 
-  const [query, setQuery] = useState(""); // State to hold the search term
-  const [selectedFilters, setSelectedFilters] = useState([]); // State to hold selected filters
-  const [subjects, setSubjects] = useState(subjectsData.subjects); // Initialize with JSON data for testing
-  const [loading, setLoading] = useState(false); // State to manage loading status
+  const [query, setQuery] = useState(""); // Search term state
+  const [selectedFilters, setSelectedFilters] = useState([]); // Selected filters state
+  const [subjects, setSubjects] = useState(subjectsData.subjects); // Initialize with mock data
+  const [loading, setLoading] = useState(false);
 
-
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === "production") {
-      fetchSubjects(); // Only fetch from API in production
-    }
-  }, [query, selectedFilters]);
 
   const handleSubjectSelect = (subject) => {
     if (selectedPosition !== null) {
@@ -35,33 +27,41 @@ const SearchPage = () => {
     }
   };
 
-  const fetchSubjects = async () => {
+  // Filtering subjects locally based on search and filter selections
+  const filterSubjectsLocally = () => {
     setLoading(true);
-    try {
-      let params = new URLSearchParams();
-      if (query) params.append("search", query);
+    let filteredSubjects = subjectsData.subjects;
 
-      selectedFilters.forEach((filter) => {
-        if (filter.startsWith("Level")) {
-          const levelNumber = filter.replace("Level ", "");
-          params.append(`level${levelNumber}`, "true");
-        } else {
-          params.append(filter.toLowerCase().replace(" ", "_"), "true");
-        }
-      });
-
-      const response = await axios.get(`/blog/courses1/?${params.toString()}`);
-      setSubjects(response.data.subjects || []); // Ensure subjects is an array
-    } catch (error) {
-      console.error("Failed to fetch subjects:", error);
-      setSubjects([]); // Set subjects to an empty array on error
-    } finally {
-      setLoading(false);
+    // Apply search query filter
+    if (query) {
+      filteredSubjects = filteredSubjects.filter(
+        (subject) =>
+          subject.title.toLowerCase().includes(query.toLowerCase()) ||
+          subject.code.toLowerCase().includes(query.toLowerCase())
+      );
     }
+
+    // Apply selected filters (e.g., levels and study periods)
+    selectedFilters.forEach((filter) => {
+      if (filter.startsWith("Level")) {
+        const level = parseInt(filter.replace("Level ", ""), 10);
+        filteredSubjects = filteredSubjects.filter((subject) => getLevelFromCode(subject.code) === level);
+      } else if (filter) {
+        filteredSubjects = filteredSubjects.filter((subject) => subject.info.includes(filter));
+      }
+    });
+
+    setSubjects(filteredSubjects);
+    setLoading(false);
   };
 
+  // Update results whenever search or filters change
+  useEffect(() => {
+    filterSubjectsLocally();
+  }, [query, selectedFilters]);
+
   const handleSearch = (newQuery) => {
-    setQuery(newQuery.toLowerCase());
+    setQuery(newQuery);
   };
 
   const handleFilterChange = (event) => {
@@ -73,7 +73,6 @@ const SearchPage = () => {
 
   const resetFilters = () => setSelectedFilters([]);
 
-  // Function to extract study periods from the "info" field
   const getStudyPeriods = (info) => {
     const periods = [];
     if (info.includes("Semester 1")) periods.push("Semester 1");
@@ -83,7 +82,6 @@ const SearchPage = () => {
     return periods;
   };
 
-  // Function to extract level from the "code" field
   const getLevelFromCode = (code) => {
     return parseInt(code.match(/\d/)[0], 10);
   };
@@ -108,27 +106,26 @@ const SearchPage = () => {
           resetFilters={resetFilters}
         />
         
-        {/* Main content */}
         <main style={{ width: "80%", padding: "20px", backgroundColor: "#fff" }}>
           {loading ? (
-            <p>Loading...</p> // Show loading indicator when fetching data
+            <p>Loading...</p>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
               {subjects && subjects.length > 0 ? (
                 subjects.map((subject) => (
                   <SearchCard
                     key={subject.course_id}
-                name={subject.title}
-                code={subject.code}
-                points={subject.credits}
-                studyPeriods={getStudyPeriods(subject.info)}
-                level={getLevelFromCode(subject.code) || "N/A"}
-                url={subject.url}
-                onClick={() => handleSubjectSelect(subject)}
+                    name={subject.title}
+                    code={subject.code}
+                    points={subject.credits}
+                    studyPeriods={getStudyPeriods(subject.info)}
+                    level={getLevelFromCode(subject.code) || "N/A"}
+                    url={subject.url}
+                    onClick={() => handleSubjectSelect(subject)}
                   />
                 ))
               ) : (
-                <p>No subjects found.</p> // Display message if no subjects are returned
+                <p>No subjects found.</p>
               )}
             </div>
           )}
@@ -139,4 +136,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-  

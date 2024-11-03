@@ -1,0 +1,21 @@
+{
+
+    "MUSI30056": {
+        "prerequisites": ["DPSS20013", "ARCH10001"],
+        "corequisites": [],
+        "non_allowed_subjects": []
+      },
+
+      "MUSI20055": {
+        "prerequisites": ["MATH20004", "COMP20003"],
+        "corequisites": [],
+        "non_allowed_subjects": []
+      },
+
+      "COMP20008": {
+        "prerequisites": ["COMP20008", "COMP10001", "COMP10003", "COMP20005", "COMP20005"],
+        "corequisites": [],
+        "non_allowed_subjects": []
+      }
+}
+  
