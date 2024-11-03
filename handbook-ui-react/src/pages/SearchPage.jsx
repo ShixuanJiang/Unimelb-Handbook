@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "axios"; // 导入axios
 import Searchbar from "../components/Searchbar";
 import SearchPageFilter from "../components/SearchPageFilter";
 import SearchCard from "../containers/SearchCard";
@@ -7,42 +7,33 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addSubject, clearPosition } from "../redux/SubjectSlice";
-import axios from "axios";
-// import subjectsData from "../data/subjects.json"; // Import the JSON file for testing
 
 const SearchPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedPosition = useSelector((state) => state.subject.selectedPosition);
+  console.log("SearchPage loaded, selectedPosition:", selectedPosition);
 
-  const [query, setQuery] = useState(""); // State to hold the search term
-  const [selectedFilters, setSelectedFilters] = useState([]); // State to hold selected filters
-  const [subjects, setSubjects] = useState(subjectsData.subjects); // Initialize with JSON data for testing
-  const [loading, setLoading] = useState(false); // State to manage loading status
-
-
-
-  const [subjects, setSubjects] = useState([]); 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [subjects, setSubjects] = useState([]); // 新增状态来存储获取的课程
+  const [loading, setLoading] = useState(true); // 处理加载状态
+  const [error, setError] = useState(null); // 处理错误状态
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "production") {
-      fetchSubjects(); // Only fetch from API in production
-    }
-  }, [query, selectedFilters]);
+    window.scrollTo(0, 0);
+    console.log("SearchPage loaded, selectedPosition:", selectedPosition);
+  }, [selectedPosition]);
 
-<<<<<<< HEAD
   useEffect(() => {
+    // 获取课程数据
     const fetchSubjects = async () => {
       try {
         const response = await axios.get("http://localhost:8001/blog/courses1/");
-        setSubjects(response.data.results || []);
+        setSubjects(response.data.results || []); // 假设接口返回的数据结构中有subjects
       } catch (err) {
         console.error("Error fetching subjects:", err);
-        setError(err.message); 
+        setError(err.message); // 记录错误信息
       } finally {
-        setLoading(false); 
+        setLoading(false); // 无论成功或失败都设置加载完成
       }
     };
 
@@ -66,12 +57,14 @@ const SearchPage = () => {
       dispatch(addSubject({ position: selectedPosition, subject }));
       dispatch(clearPosition());
       
+      // 定义要发送的数据
       const postData = {
-        semester: 1,
-        course: [subject.course_id] 
+        semester: 1, // 默认为1
+        course: [subject.course_id] // 将course_id放入数组
       };
   
       try {
+        // 发送POST请求到服务器
         const response = await axios.post('http://127.0.0.1:8001/blog/api/coursesplan/', postData, {
           headers: {
             'Content-Type': 'application/json'
@@ -82,50 +75,15 @@ const SearchPage = () => {
         navigate("/courseplanner");
       } catch (error) {
         console.error("Error posting to server:", error);
-     
+        // 可以添加一些错误处理逻辑，如弹窗通知用户
       }
   
     } else {
       console.warn("No position selected; cannot add subject.");
-    }};
-
-  const fetchSubjects = async () => {
-    setLoading(true);
-    try {
-      let params = new URLSearchParams();
-      if (query) params.append("search", query);
-
-      selectedFilters.forEach((filter) => {
-        if (filter.startsWith("Level")) {
-          const levelNumber = filter.replace("Level ", "");
-          params.append(`level${levelNumber}`, "true");
-        } else {
-          params.append(filter.toLowerCase().replace(" ", "_"), "true");
-        }
-      });
-
-      const response = await axios.get(`/blog/courses1/?${params.toString()}`);
-      setSubjects(response.data.subjects || []); // Ensure subjects is an array
-    } catch (error) {
-      console.error("Failed to fetch subjects:", error);
-      setSubjects([]); // Set subjects to an empty array on error
-    } finally {
-      setLoading(false);
     }
   };
 
-  const handleSearch = (newQuery) => {
-    setQuery(newQuery.toLowerCase());
-  };
-
-  const handleFilterChange = (event) => {
-    const { value, checked } = event.target;
-    setSelectedFilters((prevFilters) =>
-      checked ? [...prevFilters, value] : prevFilters.filter((filter) => filter !== value)
-    );
-  };
-
-  const resetFilters = () => setSelectedFilters([]);
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
   const getStudyPeriods = (info) => {
     const periods = [];
@@ -140,7 +98,6 @@ const SearchPage = () => {
     return parseInt(code.match(/\d/)[0], 10);
   };
 
-<<<<<<< HEAD
   const handleFilterChange = (event) => {
     const { value, checked } = event.target;
     console.log("choice",value);
@@ -151,9 +108,10 @@ const SearchPage = () => {
       setSelectedFilters(selectedFilters.filter((filter) => filter !== value));
     }
 
+    // 发起请求更新课程数据
     try {
           axios.get(`http://localhost:8001/blog/courses1/?level=${levelValue}`).then((response)=>{
-            setSubjects(response.data.results || []); 
+            setSubjects(response.data.results || []); // 假设接口返回的数据结构中有results
           })
     } catch (err) {
           console.error("Error fetching subjects with filter:", err);
@@ -164,16 +122,14 @@ const SearchPage = () => {
 
   const resetFilters = () => setSelectedFilters([]);
 
-  if (loading) return <div>Loading...</div>; 
-  if (error) return <div>Error: {error}</div>; 
+  if (loading) return <div>Loading...</div>; // 显示加载状态
+  if (error) return <div>Error: {error}</div>; // 显示错误信息
 
-=======
->>>>>>> 4371995788165a06c6339695dd81350f8849c2ee
   return (
     <>
       <header className="flex items-center justify-between bg-[#094183] p-4">
         <div className="container mx-auto flex justify-center">
-          <Searchbar onSearch={handleSearch} />
+          <Searchbar />
         </div>
         <Link to="/courseplanner" style={{ marginRight: "300px" }}>
           <button className="text-xl text-white hover:text-[#000F46] transition duration-300 transform hover:scale-110">
@@ -190,21 +146,10 @@ const SearchPage = () => {
         />
         
         <main style={{ width: "80%", padding: "20px", backgroundColor: "#fff" }}>
-<<<<<<< HEAD
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
             {subjects.map((subject) => (
               <SearchCard
                 key={subject.course_id}
-=======
-          {loading ? (
-            <p>Loading...</p> // Show loading indicator when fetching data
-          ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
-              {subjects && subjects.length > 0 ? (
-                subjects.map((subject) => (
-                  <SearchCard
-                    key={subject.course_id}
->>>>>>> 4371995788165a06c6339695dd81350f8849c2ee
                 name={subject.title}
                 code={subject.code}
                 points={subject.credits}
@@ -212,13 +157,9 @@ const SearchPage = () => {
                 level={getLevelFromCode(subject.code) || "N/A"}
                 url={subject.url}
                 onClick={() => handleSubjectSelect(subject)}
-                  />
-                ))
-              ) : (
-                <p>No subjects found.</p> // Display message if no subjects are returned
-              )}
-            </div>
-          )}
+              />
+            ))}
+          </div>
         </main>
       </div>
     </>
@@ -226,4 +167,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-  
