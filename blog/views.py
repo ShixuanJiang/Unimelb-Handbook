@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
-from .models import Course
-from .serializers import CourseSerializer
+from .models import Course, CoursePlan
+from .serializers import CourseSerializer, CoursePlanSerializer
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import filters
@@ -16,6 +16,17 @@ def hello_world(request):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
+class CoursePlanViewSet(viewsets.ModelViewSet):
+    queryset = CoursePlan.objects.all()
+    serializer_class = CoursePlanSerializer
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 def course_list(request):
     courses = Course.objects.all()

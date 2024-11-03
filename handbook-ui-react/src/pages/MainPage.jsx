@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import Checklist from "../components/Checklist";
 import Filter from "../components/Filter";
 import SubjectSection from "../components/SubjectSection";
-import Button from "../components/Button";
+// import Button from "../components/Button";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosition } from '../redux/SubjectSlice';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ const MainPage = () => {
         <div className="mr-[317px]">
           <Checklist toggleExpand={toggleExpand} />
         </div>
-        <Button />
+        {/* <Button /> */}
       </div>
       <Footer />
     </>

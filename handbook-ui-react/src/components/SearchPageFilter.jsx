@@ -64,7 +64,7 @@ const SearchPageFilter = ({ selectedFilters, handleFilterChange, resetFilters })
 
         {showSubjectLevels && (
           <div style={{ marginTop: "10px" }}>
-            {["Level 1", "Level 2", "Level 3", "Honours (Level 4)", "All Graduate Coursework", "All Research"].map(
+            {["Level 1", "Level 2", "Level 3"].map(
               (level) => (
                 <label key={level} style={checkboxLabelStyle}>
                   <input
