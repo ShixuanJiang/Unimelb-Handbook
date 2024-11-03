@@ -1,6 +1,12 @@
-# Unimelb-UpdatingHandbook-CoursePlanner
 
-The Handbook CoursePlanner is a web application designed to help university students plan their courses for each semester in advance. The application consists of a Django-based backend and a React frontend, providing a seamless experience for students to organize their study plans effectively.
+
+# CoursePlanner
+
+CoursePlanner is a web application designed to help university students plan their courses for each semester in advance. The application consists of a Django-based backend and a React frontend, providing a seamless experience for students to organize their study plans effectively.
+
+## Project Background Overview
+
+CoursePlanner was created to address the need for university students to efficiently plan their courses for each semester. The goal is to help students stay organized, meet prerequisite requirements, and manage their academic workload effectively. This tool provides an easy-to-use interface that integrates seamlessly with university course catalogs, allowing students to make informed decisions when planning their studies. With a modern tech stack including Django and React, CoursePlanner ensures both backend reliability and a responsive frontend experience.
 
 ## Project Structure
 
@@ -87,6 +93,17 @@ Ensure you have the following installed:
    Open `http://localhost:3000` for the React frontend.
    The Django backend will be available on `http://localhost:8000`.
 
+## Backend Startup Instructions
+
+1. **If there is no `venv` folder**: Run `virtualenv venv` to create a virtual environment.
+2. **Configure the environment**: Make sure to activate the virtual environment in the bottom right corner.
+3. **Install dependencies**: Run `pip install -r requirements.txt`.
+4. **Migrate the database**: Execute `python manage.py migrate` to import data into `db.sqlite`.
+5. **Create an admin user**: Run `python manage.py createsuperuser` to set up an admin account.
+6. **Start the backend server**: Use the command `python manage.py runserver 8001` to launch the backend on port 8001.
+7. **Backend admin interface**: Access it at `127.0.0.1:8001/admin` with the username `admin` and password `123456`.
+8. **API documentation**: Available at `127.0.0.1:8001/docs`.
+
 ## Scripts
 
 - **`npm run dev`**: Runs the React development server.
@@ -119,3 +136,243 @@ This project is licensed under the MIT License. See `LICENSE` for more details.
 - [Vite](https://vitejs.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Django](https://www.djangoproject.com/)
+
+
+## Change Logs
+
+### v1.4.0 - Nov 3, 2024
+**Added**
+- Backend Connection for Search Page: Search page now connected to backend for real-time data access.
+- Filter and Search Functionality: Completed filter and search features for search page.
+- Subject Display: Added display of subject details on the main page.
+- Component Integration: Merged new components for enhanced UI coherence.
+- Redux State Management: Finalized interaction with Redux to manage state.
+
+### v1.3.1 - Nov 2, 2024
+**Added**
+- Button UI Completion: Finished button UI with styling for consistency.
+
+### v1.3.0 - Nov 1, 2024
+**Added**
+- Main Page Button: Added button to main page for eligibility and enrollment options.
+- Eligibility & Enrollment Button: Implemented basic eligibility and enrollment button functionality.
+
+### v1.2.0 - Oct 31, 2024
+**Added**
+- Checklist Animation: Added expand and collapse animations for checklists.
+- Information Redirect Button: Button now redirects users to an external URL for more information.
+
+### v1.1.1 - Oct 30, 2024
+**Added**
+- Dynamic Search Cards: Created dynamic search cards with complete UI for responsive interactions.
+- Collapsible Checklist: Added collapsible checklist for organized display.
+- Campus Filter: Enhanced filtering with campus-specific options.
+- Hover Animation: Added hover animation to "Add Subject" button.
+- Close Button Animation: Close button now features hover effects and animations.
+- Return Button: Button added to allow return to main page.
+
+### v1.1.0 - Oct 29, 2024
+**Added**
+- Basic Checklist: Introduced basic checklist for easier task management.
+- Subject Card Linking: Added subject card that links to search page.
+
+### v1.0.3 - Oct 28, 2024
+**Added**
+- Filter Feature: Added filter option for better search functionality.
+
+### v1.0.2 - Oct 27, 2024
+**Added**
+- Search Page Prototype: Completed search page prototype, prepared for backend linkage.
+**Completed**
+- Full integration of the React frontend with the Django backend.
+**Synchronized**
+- Frontend and backend communication for seamless data flow.
+**Enhanced**
+- User interface to interact with the backend for course searches and updates.
+
+### v1.0.1 - Oct 26, 2024
+**Added**
+- Checklist Feature: Introduced checklist component for organized task tracking.
+**Integrated**
+- The search module with course addition and update interfaces.
+**Added**
+- API endpoints to support adding and modifying course data.
+**Refined**
+- Backend processes to handle course data efficiently and ensure smooth updates.
+
+### v1.0.0 - Oct 8, 2024
+**Added**
+- Footer Component: Footer completed with essential links and information.
+- Subheader Component: Completed subheader for improved navigation.
+**Developed**
+- Backend module for course search using basic CRUD operations.
+**Implemented**
+- Simple endpoints for querying course data.
+**Tested**
+- Initial functionality to ensure accurate search results.
+**Major Release**
+- Full implementation of course planning and management features.
+- Integrated React frontend with Django backend for seamless data handling.
+- Added advanced course search and filter functionality.
+- Implemented course eligibility check to verify prerequisites before selection.
+- Improved UI/UX design for better user interaction, including responsive design.
+- Full documentation added for both API and user guide.
+**New Features**
+- Admin dashboard for course and user management.
+- Backend integration with API documentation available at `/docs`.
+
+### v0.7.0 - Oct 5, 2024
+**New Features**
+- Introduced the search and filter functionality in the backend.
+- Added support for dynamic routing with React Router.
+- Enhanced course data model to include semester and course level attributes.
+**Improvements**
+- Optimized frontend build using Vite for faster loading times.
+- Refined database migration scripts to streamline setup.
+**Bug Fixes**
+- Fixed issue with course data not rendering properly on the frontend.
+**Known Issues**
+- The search filter does not auto-refresh; manual page refresh required.
+- Minor layout issues on smaller mobile screens.
+
+### v0.3.0 - Sep 19, 2024
+**Initial Implementation**
+- Set up the basic project structure with Django for the backend and React for the frontend.
+- Configured ESLint for code quality checks and Tailwind CSS for styling.
+- Initial course planning interface created with basic add and remove functionality.
+**Features**
+- Frontend prototype completed.
+- Basic backend API endpoints for course data retrieval.
+**Bug Fixes**
+- Fixed initial setup issues related to dependency installation.
+**Limitations**
+- Basic search functionality implemented but lacks advanced filtering options.
+- No course eligibility checks at this stage.
+
+
+## Key Algorithm
+
+### Course Eligibility Check Algorithm
+The course eligibility check algorithm ensures that students meet all prerequisites before adding a course to their plan. The algorithm works as follows:
+1. **Input**: Course code and the list of completed courses.
+2. **Process**:
+   - Retrieve the prerequisites for the selected course from the database.
+   - Compare the prerequisites with the list of completed courses.
+3. **Output**: A boolean value indicating whether the student is eligible to enroll in the course.
+4. **Complexity**: The algorithm runs in O(n) time, where n is the number of prerequisites.
+
+### Search and Filter Algorithm
+The search and filter algorithm allows users to find courses based on keywords and semester availability:
+1. **Input**: Keywords and filter criteria (e.g., semester, course level).
+2. **Process**:
+   - Search the course database using a case-insensitive match for the provided keywords.
+   - Filter the results based on selected criteria.
+3. **Output**: A list of courses that match the search and filter conditions.
+4. **Complexity**: The algorithm runs in O(m * log(m)) time, where m is the number of courses.
+
+
+## Description of Key Classes and the Application's Layers
+
+### 1. Application Layers Overview
+The application is organized into a multi-layered architecture to separate concerns and enhance maintainability. The main layers include:
+
+- **Presentation Layer**: Handles user interaction and displays data (e.g., React components).
+- **Business Logic Layer**: Contains the core logic for course planning and eligibility checks (e.g., Python classes in the Django views).
+- **Data Access Layer**: Manages communication with the database and data retrieval (e.g., Django models).
+- **API Layer**: Facilitates communication between the frontend and backend through RESTful API endpoints (e.g., Django REST framework views and serializers).
+
+### 2. Key Classes
+
+#### a. `Course`
+- **Location**: `blog/models.py`
+- **Description**: Represents a university course with attributes such as `course_code`, `title`, `credits`, and `prerequisites`.
+- **Responsibilities**:
+  - Defines the structure of the course data in the database.
+  - Establishes relationships with other classes (e.g., prerequisites).
+- **Methods**:
+  - `get_prerequisites()`: Returns a list of prerequisites for the course.
+
+#### b. `CourseSerializer`
+- **Location**: `blog/serializers.py`
+- **Description**: Converts `Course` model instances to JSON format and vice versa.
+- **Responsibilities**:
+  - Ensures data is correctly formatted when sent to and from the API.
+  - Handles data validation for incoming requests.
+
+#### c. `CourseViewSet`
+- **Location**: `blog/views.py`
+- **Description**: Provides endpoints for the frontend to interact with course data.
+- **Responsibilities**:
+  - Implements CRUD operations for course management.
+  - Manages filter and search functionalities.
+- **Methods**:
+  - `list()`: Retrieves a list of courses based on filters.
+  - `retrieve()`: Fetches details of a specific course.
+
+### 3. Frontend Components
+
+#### a. `CourseList`
+- **Location**: `handbook-ui-react/src/components/CourseList.jsx`
+- **Description**: Displays a list of courses with search and filter options.
+- **Responsibilities**:
+  - Renders course data received from the backend.
+  - Integrates with the Redux store for state management.
+
+#### b. `CourseDetails`
+- **Location**: `handbook-ui-react/src/components/CourseDetails.jsx`
+- **Description**: Shows detailed information for a selected course.
+- **Responsibilities**:
+  - Provides an interface for students to view course details and prerequisites.
+
+### 4. Layer Interactions
+- **Frontend and API Layer**: The React frontend interacts with the API layer through HTTP requests, fetching course data and submitting user inputs.
+- **API and Business Logic Layer**: The API layer calls the business logic layer to handle complex operations like course eligibility checks.
+- **Business Logic and Data Access Layer**: The business logic layer interacts with the data access layer to query and update the database using Django models.
+
+
+## Detected Bugs
+
+- **Course search does not update in real-time**: The course search filter needs a manual page refresh to display updated results.
+- **Login page styling issue on smaller screens**: Elements are overlapping on devices with a screen width below 400px.
+- **API documentation link issue**: The `/docs` endpoint sometimes returns a 404 error due to incorrect routing configuration.
+
+## Traceability Matrix
+
+The following traceability matrix outlines the relationship between user stories and their corresponding test cases to ensure that all functionalities are adequately tested and verified.
+
+| User Story ID | User Story Description |
+|---------------|------------------------|
+| US1           | As a user, I want to select my study type before I start planning my course |
+| US2           | As a user, I want to log in to the system using the Unimelb account |
+| US3           | As a user, I want to be informed of important information before planning my course |
+| US4           | As a user, I want to filter and search for subjects |
+| US5           | As a user, I want to check if my selected subjects break the course rules |
+| US6           | As a user, I want to add changes to my course plan when planning |
+| US7           | As a user, I want to go directly to enrolment after planning my course |
+| US8           | As a user, I want to view prerequisites for each subject |
+| US9           | As a user, I want to receive suggestions based on my previous choices |
+| US10          | As a user, I want to export my course plan as a PDF |
+| US11          | As a user, I want to compare different course plans side by side |
+| US12          | As a user, I want to manage the list of available courses and view other students' lesson plans and reviews |
+| US13          | As a user, I want to receive regular reminders and updates about my course selections |
+| US14          | As an administrator, I want to import existing course planning templates for students |
+| US15          | As an administrator, I want to add and remove subjects in the database |
+
+| Test Case ID | Test Case Description |
+|--------------|-----------------------|
+| TC1          | Verify that the user can select their study type and save the information to display relevant course options |
+| TC2          | Verify that the user can log in with their Unimelb account and retain study plan progress upon re-login |
+| TC3          | Verify that the user is informed of all necessary details before proceeding with course planning |
+| TC4          | Verify that the user can filter and search for subjects based on criteria (e.g., subject level, field of study) |
+| TC5          | Verify that the system flags rule violations in the selected study plan |
+| TC6          | Verify that the user can modify their study plan by adding or removing subjects |
+| TC7          | Verify that the system redirects the user to the enrolment page after completing their study plan |
+| TC8          | Verify that the system displays prerequisites for each selected subject |
+| TC9          | Verify that the system provides course suggestions based on the user's prior selections |
+| TC10         | Verify that the user can export their course plan as a PDF |
+| TC11         | Verify that the system allows users to view and compare multiple course plans side by side |
+| TC12         | Verify that the user can view the list of courses and access other students' lesson plans and reviews |
+| TC13         | Verify that the user receives timely reminders and updates regarding course selections |
+| TC14         | Verify that administrators can import course planning templates for student reference |
+| TC15         | Verify that administrators can add and remove courses in the database to keep course options updated |
+
