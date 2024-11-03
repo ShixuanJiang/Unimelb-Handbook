@@ -1,1 +1,0 @@
-pip freeze>req/requirements_mac.txt

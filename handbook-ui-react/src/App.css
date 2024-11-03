@@ -1,6 +1,13 @@
+.app-container {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: row; /* Arrange children in a row */
+  justify-content: flex-start; /* Align children to the left */
+  align-items: flex-start; /* Align items at the top */
+  padding: 20px; /* Padding around the container */
+}
+
 .top-header {
   background-color: #094183;
-  /* The blue background */
   padding: 1px;
   color: white;
 }

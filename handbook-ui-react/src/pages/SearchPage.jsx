@@ -1,288 +1,169 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // 导入axios
 import Searchbar from "../components/Searchbar";
-import {useState} from "react";
+import SearchPageFilter from "../components/SearchPageFilter";
+import SearchCard from "../containers/SearchCard";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addSubject, clearPosition } from "../redux/SubjectSlice";
 
 const SearchPage = () => {
-  const [showSubjectLevels, setShowSubjectLevels] = useState(true);
-  const [showStudyPeriods, setShowStudyPeriods] = useState(true);
-  const [showAreaOfStudy, setShowAreaOfStudy] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const selectedPosition = useSelector((state) => state.subject.selectedPosition);
+  console.log("SearchPage loaded, selectedPosition:", selectedPosition);
 
-    // State to store selected filters
-    const [selectedFilters, setSelectedFilters] = useState([]);
+  const [subjects, setSubjects] = useState([]); // 新增状态来存储获取的课程
+  const [loading, setLoading] = useState(true); // 处理加载状态
+  const [error, setError] = useState(null); // 处理错误状态
 
-  // Handle checkbox change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    console.log("SearchPage loaded, selectedPosition:", selectedPosition);
+  }, [selectedPosition]);
+
+  useEffect(() => {
+    // 获取课程数据
+    const fetchSubjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:8001/blog/courses1/");
+        setSubjects(response.data.results || []); // 假设接口返回的数据结构中有subjects
+      } catch (err) {
+        console.error("Error fetching subjects:", err);
+        setError(err.message); // 记录错误信息
+      } finally {
+        setLoading(false); // 无论成功或失败都设置加载完成
+      }
+    };
+
+    fetchSubjects();
+  }, []);
+
+  // const handleSubjectSelect = (subject) => {
+  //   console.log("Subject selected:", subject, "Selected position:", selectedPosition);
+  //   if (selectedPosition !== null) {
+  //     dispatch(addSubject({ position: selectedPosition, subject }));
+  //     dispatch(clearPosition());
+  //     navigate("/courseplanner");
+  //   } else {
+  //     console.warn("No position selected; cannot add subject.");
+  //   }
+  // };
+
+  const handleSubjectSelect = async (subject) => {
+    console.log("Subject selected:", subject, "Selected position:", selectedPosition);
+    if (selectedPosition !== null) {
+      dispatch(addSubject({ position: selectedPosition, subject }));
+      dispatch(clearPosition());
+      
+      // 定义要发送的数据
+      const postData = {
+        semester: 1, // 默认为1
+        course: [subject.course_id] // 将course_id放入数组
+      };
+  
+      try {
+        // 发送POST请求到服务器
+        const response = await axios.post('http://127.0.0.1:8001/blog/api/coursesplan/', postData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+  
+        console.log("Response from server:", response.data);
+        navigate("/courseplanner");
+      } catch (error) {
+        console.error("Error posting to server:", error);
+        // 可以添加一些错误处理逻辑，如弹窗通知用户
+      }
+  
+    } else {
+      console.warn("No position selected; cannot add subject.");
+    }
+  };
+
+  const [selectedFilters, setSelectedFilters] = useState([]);
+
+  const getStudyPeriods = (info) => {
+    const periods = [];
+    if (info.includes("Semester 1")) periods.push("Semester 1");
+    if (info.includes("Semester 2")) periods.push("Semester 2");
+    if (info.includes("Summer Term")) periods.push("Summer Term");
+    if (info.includes("Winter Term")) periods.push("Winter Term");
+    return periods;
+  };
+
+  const getLevelFromCode = (code) => {
+    return parseInt(code.match(/\d/)[0], 10);
+  };
+
   const handleFilterChange = (event) => {
     const { value, checked } = event.target;
+    console.log("choice",value);
+    const levelValue = value.includes("Level ") ? value.replace("Level ", "").trim() : value;
     if (checked) {
       setSelectedFilters([...selectedFilters, value]);
     } else {
       setSelectedFilters(selectedFilters.filter((filter) => filter !== value));
     }
+
+    // 发起请求更新课程数据
+    try {
+          axios.get(`http://localhost:8001/blog/courses1/?level=${levelValue}`).then((response)=>{
+            setSubjects(response.data.results || []); // 假设接口返回的数据结构中有results
+          })
+    } catch (err) {
+          console.error("Error fetching subjects with filter:", err);
+          setError(err.message);
+    }
+
   };
 
-  // Reset filters
   const resetFilters = () => setSelectedFilters([]);
 
-  // Toggle the visibility of the subject levels
-  const toggleSubjectLevels = () => {
-    setShowSubjectLevels(!showSubjectLevels);
-  };
-  const toggleStudyPeriods = () => setShowStudyPeriods(!showStudyPeriods);
-  const toggleAreaOfStudy = () => setShowAreaOfStudy(!showAreaOfStudy);
+  if (loading) return <div>Loading...</div>; // 显示加载状态
+  if (error) return <div>Error: {error}</div>; // 显示错误信息
 
   return (
     <>
-      <header className="bg-blue-900 p-4">
+      <header className="flex items-center justify-between bg-[#094183] p-4">
         <div className="container mx-auto flex justify-center">
           <Searchbar />
         </div>
+        <Link to="/courseplanner" style={{ marginRight: "300px" }}>
+          <button className="text-xl text-white hover:text-[#000F46] transition duration-300 transform hover:scale-110">
+            ✖
+          </button>
+        </Link>
       </header>
 
-      <div
-        style={{
-          display: "flex",
-          height: "calc(100vh - 64px)", // Adjust based on header height
-        }}
-      >
-        {/* Sidebar */}
-        <aside
-          style={{
-            width: "20%", // Takes up 1/4 of the width
-            backgroundColor: "#F1F1F1",
-            padding: "20px",
-          }}
-        >
-          {/* Applied Filters Section */}
-          <div style={{ marginBottom: "20px" }}>
-            <h4>Filter applied</h4>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                margin: "10px 0",
-              }}
-            >
-              {selectedFilters.map((filter) => (
-                <span key={filter} style={tagStyle}>
-                  <button
-                    onClick={() =>
-                      handleFilterChange({
-                        target: { value: filter, checked: false },
-                      })
-                    }
-                    style={{ marginRight: "5px" }}
-                  >
-                    ✖
-                  </button>
-                  {filter}
-                </span>
-              ))}
-            </div>
-            <button onClick={resetFilters} style={resetButtonStyle}>
-              Reset
-            </button>
-          </div>
-          
-          {/* Subject Levels Collapsible Section */}
-          <div style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              fontWeight: "bold",
-              color: "#333",
-            }} onClick={toggleSubjectLevels}>
-              <span>Subject Levels</span>
-              <span>{showSubjectLevels ? "▲" : "▼"}</span>
-            </div>
-            
-            {showSubjectLevels && (
-              <div style={{ marginTop: "10px" }}>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Level 1" onChange={handleFilterChange} /> Level 1
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Level 2" onChange={handleFilterChange} /> Level 2
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Level 3" onChange={handleFilterChange} /> Level 3
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Honours (Level 4)" onChange={handleFilterChange} /> Honours (Level 4)
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="All Graduate Coursework" onChange={handleFilterChange} /> All Graduate Coursework
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="All Research" onChange={handleFilterChange} /> All Research
-                </label>
-              </div>
-            )}
-          </div>
-
-          {/* Study Periods Collapsible Section */}
-          <div style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              fontWeight: "bold",
-              color: "#333",
-            }} onClick={toggleStudyPeriods}>
-              <span>Study Periods</span>
-              <span>{showStudyPeriods ? "▲" : "▼"}</span>
-            </div>
-            
-            {showStudyPeriods && (
-              <div style={{ marginTop: "10px" }}>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Semester 1" onChange={handleFilterChange} /> Semester 1
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Semester 2" onChange={handleFilterChange} /> Semester 2
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Summer Term" onChange={handleFilterChange} /> Summer Term
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Winter Term" onChange={handleFilterChange} /> Winter Term
-                </label>
-              </div>
-            )}
-          </div>
-
-          {/* Area of Study Collapsible Section */}
-          <div style={{
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              fontWeight: "bold",
-              color: "#333",
-            }} onClick={toggleAreaOfStudy}>
-              <span>Area of Study</span>
-              <span>{showAreaOfStudy ? "▲" : "▼"}</span>
-            </div>
-            
-            {showAreaOfStudy && (
-              <div style={{ marginTop: "10px" }}>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Computer Science" onChange={handleFilterChange} /> Computer Science
-                </label>
-                <label style={checkboxLabelStyle}>
-                  <input type="checkbox" value="Information Systems" onChange={handleFilterChange} /> Information Systems
-                </label>
-              </div>
-            )}
-          </div>
-
-          {/* Placeholder for filter options */}
-          <div
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "10px",
-              height: "100%",
-            }}
-          >
-            <p style={{ color: "#666", textAlign: "center" }}>
-              Additional filters
-            </p>
-          </div>
-        </aside>
-
-        {/* Main content */}
-        <main
-          style={{
-            width: "80%",
-            padding: "20px",
-            backgroundColor: "#fff",
-          }}
-        >
-          {/* Grid layout for subjects */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-
-              gap: "10px", // Space between boxes
-              padding: "10px 0",
-            }}
-          >
-            {/* Example boxes for subjects */}
-            <div style={boxStyle}>Subject 1</div>
-            <div style={boxStyle}>Subject 2</div>
-            <div style={boxStyle}>Subject 3</div>
-            <div style={boxStyle}>Subject 4</div>
-            <div style={boxStyle}>Subject 5</div>
-            <div style={boxStyle}>Subject 6</div>
-            <div style={boxStyle}>Subject 7</div>
-            <div style={boxStyle}>Subject 8</div>
-            <div style={boxStyle}>Subject 9</div>
-            <div style={boxStyle}>Subject 10</div>
-            <div style={boxStyle}>Subject 11</div>
+      <div style={{ display: "flex", height: "calc(100vh - 64px)" }}>
+        <SearchPageFilter 
+          selectedFilters={selectedFilters}
+          handleFilterChange={handleFilterChange}
+          resetFilters={resetFilters}
+        />
+        
+        <main style={{ width: "80%", padding: "20px", backgroundColor: "#fff" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
+            {subjects.map((subject) => (
+              <SearchCard
+                key={subject.course_id}
+                name={subject.title}
+                code={subject.code}
+                points={subject.credits}
+                studyPeriods={getStudyPeriods(subject.info)}
+                level={getLevelFromCode(subject.code) || "N/A"}
+                url={subject.url}
+                onClick={() => handleSubjectSelect(subject)}
+              />
+            ))}
           </div>
         </main>
       </div>
     </>
   );
 };
-
-
-const boxStyle = {
-    backgroundColor: '#f9f9f9',
-    padding: '20px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    height: '160px',
-    textAlign: 'center',
-  };
-
-const checkboxLabelStyle = {
-    display: "block",
-    padding: "5px 0",
-    fontSize: "14px",
-    color: "#333",
-  };
-
-const tagStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    borderRadius: '16px',
-    padding: '5px 10px',
-    fontSize: '14px',
-  };
-
-// Styling for reset button
-const resetButtonStyle = {
-    marginTop: '10px',
-    padding: '5px 10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  };
 
 export default SearchPage;

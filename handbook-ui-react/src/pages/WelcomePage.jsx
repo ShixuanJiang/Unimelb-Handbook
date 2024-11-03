@@ -54,7 +54,7 @@ const WelcomePage = () => {
         </div>
 
         {/* Student Log In Button */}
-        <Link to="/mainpage">
+        <Link to="/courseplanner">
             <button className="bg-blue-950 text-white px-20 py-2 mt-8">
                 Student Log In
             </button>

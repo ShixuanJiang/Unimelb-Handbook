@@ -1,1 +1,0 @@
-uwsgi --stop run.pid
