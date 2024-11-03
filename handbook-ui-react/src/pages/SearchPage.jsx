@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addSubject, clearPosition } from "../redux/SubjectSlice";
 import axios from "axios";
-import subjectsData from "../data/subjects.json"; // Import the JSON file for testing
+// import subjectsData from "../data/subjects.json"; // Import the JSON file for testing
 
 const SearchPage = () => {
   const dispatch = useDispatch();
