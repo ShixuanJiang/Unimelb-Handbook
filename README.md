@@ -376,3 +376,23 @@ The following traceability matrix outlines the relationship between user stories
 | TC14         | Verify that administrators can import course planning templates for student reference |
 | TC15         | Verify that administrators can add and remove courses in the database to keep course options updated |
 
+## Description of Database Structure
+
+This section provides an overview of the database used in the project, detailing the purpose of each component and the transitions made during the development process.
+
+### Database Overview
+Initially, the local environment for project development and deployment was based on **MySQL**, which provided a robust relational database structure ideal for maintaining data integrity and managing complex relationships. While MySQL was effective, certain limitations became apparent as the project evolved, particularly related to data portability and handover capabilities in a local development context. We found that Django's built-in mechanisms for simpler data storage were well-suited for our needs at this stage.
+
+To enhance development efficiency and facilitate better collaboration among team members, we opted to replace **MySQL** with a set of **CSV files** for the local development environment. These CSV files now function as the database, integrated with Django for local testing. This shift has provided greater flexibility, allowing team members to easily share data and streamline the development and handover processes.
+
+### Description of Each CSV File
+
+- **`courses_structure.csv`**: This file holds data on the structure of each course, detailing requirements, compulsory subjects, and elective subjects. It aids in understanding the learning paths and academic requirements for various courses.
+- **`majors_minors_structure.csv`**: Contains data on the structure of each major or minor, including compulsory and elective course codes. This file is key for outlining the specific structure of majors and minors.
+- **`courses_info.csv`**: Includes detailed information for each course, such as the course name, code, location, duration, credit points, and a link to the course page. This file is essential for displaying comprehensive course details.
+- **`subject_info.csv`**: Stores data related to individual subjects within courses, including subject name, code, primary details, credit points, and URLs. It is crucial for presenting detailed subject-level information.
+- **`subject_eligibility.csv`**: Holds eligibility criteria for subjects, covering prerequisites, corequisites, and non-allowed subjects. The fields include subject code, prerequisites, corequisites, and non-allowed subjects. This file is essential for determining if a student meets the enrollment criteria for specific subjects.
+- **`course_majors_minors_specialisations.csv`**: Contains details about the majors, minors, and specializations associated with specific courses, including course code, specialization name, and URLs for more information. This file aids in showcasing and navigating different academic focus areas within courses.
+
+### Benefits of Using CSV Files
+Switching to **CSV files** has streamlined the development process, making it especially suitable for a distributed team that needs rapid iteration and straightforward data access. This approach has been effective for local development, ensuring a smooth workflow while maintaining the flexibility needed for future scalability and handover planning.
