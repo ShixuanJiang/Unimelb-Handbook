@@ -1,4 +1,3 @@
-// SubjectSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const subjectSlice = createSlice({

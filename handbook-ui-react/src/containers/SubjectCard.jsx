@@ -38,25 +38,25 @@ const SubjectCard = ({ type, subject, position,}) => {
 
     return (
       <div className="flex flex-col h-[171px] w-full justify-between rounded-lg overflow-hidden border border-gray-300 bg-gray-100 shadow-md">
-        {/* Header with Type covering full width */}
+        {/* Header with Type */}
         <div className="w-full bg-[#FFDCA2] p-1 flex items-center">
           <span className="px-1 text-base font-bold text-black">{type || "N/A"}</span>
         </div>
 
-        {/* Body with flex-grow to push periods to the bottom */}
+        {/* Body */}
         <div className="flex-grow px-2 py-2">
           {/* Row for Code | Level | Points */}
           <div className="text-xs font-semibold text-gray-800">
             <span className="font-bold">{code}</span> | Level {level} | {credits} Points
           </div>
 
-          {/* Subject Name with overflow handling */}
+          {/* Subject Name */}
           <div className="mt-1 text-lg font-bold text-gray-900 leading-tight line-clamp-2">
             {title}
           </div>
         </div>
 
-        {/* Study Periods aligned to the bottom left */}
+        {/* Study Periods */}
         <div className="px-2 pb-2 flex items-end">
           <div className="grid grid-cols-2 gap-1">
             {studyPeriodsOrder.map((period) => (
@@ -76,8 +76,8 @@ const SubjectCard = ({ type, subject, position,}) => {
 
   // Placeholder card if no subject is selected
   return (
-    <div className="flex h-[171px] w-full items-center justify-center rounded-lg bg-gray-200 cursor-pointer" onClick={handleAddSubject}>
-      <PlusCircleIcon className="h-10 w-10 transform text-gray-500 transition duration-300 hover:scale-110 hover:text-gray-700" />
+    <div className="flex h-[171px] w-full items-center justify-center rounded-lg bg-gray-200 cursor-pointer" >
+      <PlusCircleIcon className="h-10 w-10 transform text-gray-500 transition duration-300 hover:scale-110 hover:text-gray-700" onClick={handleAddSubject}/>
     </div>
   );
 };

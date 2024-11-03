@@ -37,7 +37,6 @@ const SearchCard = ({
         <div className="flex flex-col">
           <p className="text-lg font-bold">{code}</p>
           <span className="text-sm text-gray-600">{points} Points</span>{" "}
-          {/* Adjusted margin-top for closer spacing */}
         </div>
         <div
           className="relative flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200 hover:bg-gray-200"

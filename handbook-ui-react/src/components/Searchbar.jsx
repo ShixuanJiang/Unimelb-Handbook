@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import { FaSearch, FaTimes } from 'react-icons/fa'; // Icons for search and close
+import { FaSearch, FaTimes } from 'react-icons/fa'; 
 
 const Searchbar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
