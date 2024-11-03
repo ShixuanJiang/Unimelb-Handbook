@@ -1,4 +1,3 @@
-// SubjectSection.jsx
 import React from 'react';
 import SubjectCard from '../containers/SubjectCard';
 

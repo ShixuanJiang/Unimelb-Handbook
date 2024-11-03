@@ -7,22 +7,32 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addSubject, clearPosition } from "../redux/SubjectSlice";
+import axios from "axios";
+// import subjectsData from "../data/subjects.json"; // Import the JSON file for testing
 
 const SearchPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedPosition = useSelector((state) => state.subject.selectedPosition);
-  console.log("SearchPage loaded, selectedPosition:", selectedPosition);
+
+  const [query, setQuery] = useState(""); // State to hold the search term
+  const [selectedFilters, setSelectedFilters] = useState([]); // State to hold selected filters
+  const [subjects, setSubjects] = useState(subjectsData.subjects); // Initialize with JSON data for testing
+  const [loading, setLoading] = useState(false); // State to manage loading status
+
+
 
   const [subjects, setSubjects] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    console.log("SearchPage loaded, selectedPosition:", selectedPosition);
-  }, [selectedPosition]);
+    if (process.env.NODE_ENV === "production") {
+      fetchSubjects(); // Only fetch from API in production
+    }
+  }, [query, selectedFilters]);
 
+<<<<<<< HEAD
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
@@ -77,10 +87,45 @@ const SearchPage = () => {
   
     } else {
       console.warn("No position selected; cannot add subject.");
+    }};
+
+  const fetchSubjects = async () => {
+    setLoading(true);
+    try {
+      let params = new URLSearchParams();
+      if (query) params.append("search", query);
+
+      selectedFilters.forEach((filter) => {
+        if (filter.startsWith("Level")) {
+          const levelNumber = filter.replace("Level ", "");
+          params.append(`level${levelNumber}`, "true");
+        } else {
+          params.append(filter.toLowerCase().replace(" ", "_"), "true");
+        }
+      });
+
+      const response = await axios.get(`/blog/courses1/?${params.toString()}`);
+      setSubjects(response.data.subjects || []); // Ensure subjects is an array
+    } catch (error) {
+      console.error("Failed to fetch subjects:", error);
+      setSubjects([]); // Set subjects to an empty array on error
+    } finally {
+      setLoading(false);
     }
   };
 
-  const [selectedFilters, setSelectedFilters] = useState([]);
+  const handleSearch = (newQuery) => {
+    setQuery(newQuery.toLowerCase());
+  };
+
+  const handleFilterChange = (event) => {
+    const { value, checked } = event.target;
+    setSelectedFilters((prevFilters) =>
+      checked ? [...prevFilters, value] : prevFilters.filter((filter) => filter !== value)
+    );
+  };
+
+  const resetFilters = () => setSelectedFilters([]);
 
   const getStudyPeriods = (info) => {
     const periods = [];
@@ -95,6 +140,7 @@ const SearchPage = () => {
     return parseInt(code.match(/\d/)[0], 10);
   };
 
+<<<<<<< HEAD
   const handleFilterChange = (event) => {
     const { value, checked } = event.target;
     console.log("choice",value);
@@ -121,11 +167,13 @@ const SearchPage = () => {
   if (loading) return <div>Loading...</div>; 
   if (error) return <div>Error: {error}</div>; 
 
+=======
+>>>>>>> 4371995788165a06c6339695dd81350f8849c2ee
   return (
     <>
       <header className="flex items-center justify-between bg-[#094183] p-4">
         <div className="container mx-auto flex justify-center">
-          <Searchbar />
+          <Searchbar onSearch={handleSearch} />
         </div>
         <Link to="/courseplanner" style={{ marginRight: "300px" }}>
           <button className="text-xl text-white hover:text-[#000F46] transition duration-300 transform hover:scale-110">
@@ -142,10 +190,21 @@ const SearchPage = () => {
         />
         
         <main style={{ width: "80%", padding: "20px", backgroundColor: "#fff" }}>
+<<<<<<< HEAD
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
             {subjects.map((subject) => (
               <SearchCard
                 key={subject.course_id}
+=======
+          {loading ? (
+            <p>Loading...</p> // Show loading indicator when fetching data
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", padding: "10px 0" }}>
+              {subjects && subjects.length > 0 ? (
+                subjects.map((subject) => (
+                  <SearchCard
+                    key={subject.course_id}
+>>>>>>> 4371995788165a06c6339695dd81350f8849c2ee
                 name={subject.title}
                 code={subject.code}
                 points={subject.credits}
@@ -153,9 +212,13 @@ const SearchPage = () => {
                 level={getLevelFromCode(subject.code) || "N/A"}
                 url={subject.url}
                 onClick={() => handleSubjectSelect(subject)}
-              />
-            ))}
-          </div>
+                  />
+                ))
+              ) : (
+                <p>No subjects found.</p> // Display message if no subjects are returned
+              )}
+            </div>
+          )}
         </main>
       </div>
     </>
@@ -163,3 +226,4 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
+  
