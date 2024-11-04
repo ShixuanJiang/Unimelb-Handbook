@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Filter = () => {
+const Filter = ({ toggleExpand }) => {
   const [showFilter, setShowFilter] = useState(true);
 
   const [facultyCheckboxes, setFacultyCheckboxes] = useState({
@@ -80,10 +80,16 @@ const Filter = () => {
     setSections(prev => ({ ...prev, [sectionKey]: !prev[sectionKey] }));
   };
 
+  const toggleFilter = () => {
+    const newShowFilter = !showFilter;
+    setShowFilter(newShowFilter);
+    toggleExpand(newShowFilter);
+  }
+
   return (
     <div style={{ marginLeft: "317px" }}>
       <button
-        onClick={() => setShowFilter(!showFilter)}
+        onClick={toggleFilter}
         className="mb-3 mt-3 flex items-center text-sm font-semibold text-black hover:text-gray-700"
       >
         <span className="text-lg">◧</span>&nbsp;
