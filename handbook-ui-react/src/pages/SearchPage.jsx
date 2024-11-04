@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // 导入axios
+import axios from "axios";
 import Searchbar from "../components/Searchbar";
 import SearchPageFilter from "../components/SearchPageFilter";
 import SearchCard from "../containers/SearchCard";
@@ -14,9 +14,9 @@ const SearchPage = () => {
   const selectedPosition = useSelector((state) => state.subject.selectedPosition);
   console.log("SearchPage loaded, selectedPosition:", selectedPosition);
 
-  const [subjects, setSubjects] = useState([]); // 新增状态来存储获取的课程
-  const [loading, setLoading] = useState(true); // 处理加载状态
-  const [error, setError] = useState(null); // 处理错误状态
+  const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,16 +24,15 @@ const SearchPage = () => {
   }, [selectedPosition]);
 
   useEffect(() => {
-    // 获取课程数据
     const fetchSubjects = async () => {
       try {
         const response = await axios.get("http://localhost:8001/blog/courses1/");
-        setSubjects(response.data.results || []); // 假设接口返回的数据结构中有subjects
+        setSubjects(response.data.results || []);
       } catch (err) {
         console.error("Error fetching subjects:", err);
-        setError(err.message); // 记录错误信息
+        setError(err.message);
       } finally {
-        setLoading(false); // 无论成功或失败都设置加载完成
+        setLoading(false);
       }
     };
 
@@ -57,14 +56,12 @@ const SearchPage = () => {
       dispatch(addSubject({ position: selectedPosition, subject }));
       dispatch(clearPosition());
       
-      // 定义要发送的数据
       const postData = {
-        semester: 1, // 默认为1
-        course: [subject.course_id] // 将course_id放入数组
+        semester: 1,
+        course: [subject.course_id]
       };
   
       try {
-        // 发送POST请求到服务器
         const response = await axios.post('http://127.0.0.1:8001/blog/api/coursesplan/', postData, {
           headers: {
             'Content-Type': 'application/json'
@@ -75,7 +72,6 @@ const SearchPage = () => {
         navigate("/courseplanner");
       } catch (error) {
         console.error("Error posting to server:", error);
-        // 可以添加一些错误处理逻辑，如弹窗通知用户
       }
   
     } else {
@@ -108,10 +104,9 @@ const SearchPage = () => {
       setSelectedFilters(selectedFilters.filter((filter) => filter !== value));
     }
 
-    // 发起请求更新课程数据
     try {
           axios.get(`http://localhost:8001/blog/courses1/?level=${levelValue}`).then((response)=>{
-            setSubjects(response.data.results || []); // 假设接口返回的数据结构中有results
+            setSubjects(response.data.results || []);
           })
     } catch (err) {
           console.error("Error fetching subjects with filter:", err);
@@ -122,8 +117,8 @@ const SearchPage = () => {
 
   const resetFilters = () => setSelectedFilters([]);
 
-  if (loading) return <div>Loading...</div>; // 显示加载状态
-  if (error) return <div>Error: {error}</div>; // 显示错误信息
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
